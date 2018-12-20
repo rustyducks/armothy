@@ -124,10 +124,10 @@ environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.DT
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.DTS/value=0
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.LOCAL/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.LOCAL/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.LOCAL/value=1545337228
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.LOCAL/value=1545337705
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.UTC/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.UTC/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.UTC/value=1545333628
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.UTC/value=1545334105
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.ZONE/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.ZONE/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.EXTRA.TIME.ZONE/value=3600
@@ -175,7 +175,7 @@ environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.AR.PAT
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.AR.PATTERN/value="${A.COMPILER.PATH}${A.BUILD.TOOLCHAIN}${A.BUILD.COMMAND.AR}" rcs "${A.BUILD.PATH}/core/${A.ARCHIVE_FILE}" "${A.OBJECT_FILE}"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-gcc" -O3 -Wl,--gc-sections,--relax,--defsym\=__rtc_localtime\=1545337228 "-T/usr/share/arduino-1.8.5/hardware/teensy/avr/cores/teensy3/mk20dx256.ld" -lstdc++ -mthumb -mcpu\=cortex-m4 -fsingle-precision-constant -o "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.elf" 
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-gcc" -O3 -Wl,--gc-sections,--relax,--defsym\=__rtc_localtime\=1545337705 "-T/usr/share/arduino-1.8.5/hardware/teensy/avr/cores/teensy3/mk20dx256.ld" -lstdc++ -mthumb -mcpu\=cortex-m4 -fsingle-precision-constant -o "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.elf" 
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.2/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.2/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.2/value=\ 
@@ -412,7 +412,7 @@ environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.COM_PORT
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.COM_PORT/value=/dev/ttyACM0
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.ECLIPSE_LOCATION/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.ECLIPSE_LOCATION/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.ECLIPSE_LOCATION/value=${eclipse_home}///////////////
+environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.ECLIPSE_LOCATION/value=${eclipse_home}//////////////////////
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.EXTRA.ALL/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.EXTRA.ALL/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.EXTRA.ALL/value=
@@ -463,7 +463,7 @@ environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.WARNING_
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.WARNING_LEVEL/value=true
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.WORKSPACE_LOCATION/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.WORKSPACE_LOCATION/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.WORKSPACE_LOCATION/value=${eclipse_home}///////////////-ws
+environment/project/io.sloeber.core.toolChain.release.1612820720/JANTJE.WORKSPACE_LOCATION/value=${eclipse_home}//////////////////////-ws
 environment/project/io.sloeber.core.toolChain.release.1612820720/PATH/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/PATH/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/PATH/value=${A.COMPILER.PATH}${PathDelimiter}${A.BUILD.GENERIC.PATH}${PathDelimiter}${PATH}

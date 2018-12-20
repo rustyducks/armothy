@@ -19,24 +19,25 @@
 							<builder buildPath="${workspace_loc:/armothy}/Release" id="io.sloeber.sketch.builder.24939567" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Arduino sketch builder" superClass="io.sloeber.sketch.builder"/>
 							<tool id="io.sloeber.tool.sketch.compiler.cpp.790813441" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp">
 								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.2057881882" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/libraries/DynamixelSerial5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/libraries/DynamixelSerial5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.141933544" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
 							<tool id="io.sloeber.tool.compiler.c.1780809052" name="Arduino C Compiler" superClass="io.sloeber.tool.compiler.c">
 								<option id="io.sloeber.compiler.c.sketch.option.incpath.754919527" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/src/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/DynamixelSerial5}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.490751728" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
 							<tool id="io.sloeber.tool.sketch.compiler.s.778216366" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s">
 								<option id="io.sloeber.compiler.asm.sketch.option.incpath.1732696744" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/src/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/libraries/DynamixelSerial5}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/DynamixelSerial5}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.905567537" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
