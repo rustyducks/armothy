@@ -61,8 +61,8 @@
  
  */
 
-#ifndef DynamixelSerial5_h
-#define DynamixelSerial5_h
+#ifndef DynamixelSerial3_h
+#define DynamixelSerial3_h
 
 	// EEPROM AREA  ///////////////////////////////////////////////////////////
 #define AX_MODEL_NUMBER_L           0

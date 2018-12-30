@@ -11,9 +11,42 @@
 
 #define sig(x) (x) > 0 ? 1 : 0
 
-DCMotor dcmotor = DCMotor();
+constexpr float DCMotor::INC_PER_MM;
+constexpr float DCMotor::KP;
+constexpr float DCMotor::KI;
+constexpr float DCMotor::KD;
+constexpr int DCMotor::MIN_INTEGRAL;
+constexpr int DCMotor::MAX_INTEGRAL;
+
+DCMotor * dcmotor = nullptr;
 
 DCMotor::DCMotor() : _inc(0), _goal_inc(0), _prevError(0), _integralError(0){
+}
+
+void DCMotor::home(){
+	_goal_inc = -500 * INC_PER_MM;
+}
+
+void DCMotor::stop(){
+	_goal_inc = _inc;
+	_prevError = 0;
+	_integralError = 0;
+}
+
+void DCMotor::go_to(double position){
+	_goal_inc = position * INC_PER_MM;
+}
+
+float DCMotor::get_position(){
+	return _inc / INC_PER_MM;
+}
+
+bool DCMotor::isMoving(){
+	return abs(_inc - _goal_inc) >= 10;
+}
+
+void DCMotor::setup(){
+	dcmotor = this;
 	pinMode(VERTICAL_MOTOR_PWM, OUTPUT);
 	pinMode(VERTICAL_MOTOR_DIR, OUTPUT);
 	pinMode(VERTICAL_ENCODER_A, INPUT);
@@ -23,18 +56,6 @@ DCMotor::DCMotor() : _inc(0), _goal_inc(0), _prevError(0), _integralError(0){
 	attachInterrupt(VERTICAL_ENCODER_B, ISR_INC2, RISING);
 	attachInterrupt(VERTICAL_LIMIT_SWITCH, ISR_STOP, RISING);
 	home();
-}
-
-void DCMotor::home(){
-	_goal_inc = -500 * INC_PER_MM;
-}
-
-void DCMotor::go_to(double position){
-	_goal_inc = position * INC_PER_MM;
-}
-
-float DCMotor::get_position(){
-	return _inc / INC_PER_MM;
 }
 
 void DCMotor::loop(){
@@ -74,13 +95,13 @@ void DCMotor::isr_limit_switch(){
 }
 
 void ISR_INC1(){
-	dcmotor.isr_inc1();
+	dcmotor->isr_inc1();
 }
 
 void ISR_INC2(){
-	dcmotor.isr_inc2();
+	dcmotor->isr_inc2();
 }
 
 void ISR_STOP(){
-	dcmotor.isr_limit_switch();
+	dcmotor->isr_limit_switch();
 }

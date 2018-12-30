@@ -8,11 +8,14 @@
 #ifndef ARMOTHY_H_
 #define ARMOTHY_H_
 
-#include <DynamixelSerial5.h>
+#include <DynamixelSerial3.h>
 
 #include "Communication.h"
 #include "DCMotor.h"
+#include "DebugInterface.h"
+#include "SuccionCup.h"
 
+namespace armothy{
 class Armothy {
 public:
 	enum ePumpState{
@@ -33,6 +36,8 @@ public:
 	virtual ~Armothy(){};
 
 	void home();
+	void emergencyStop();
+	bool isMoving();
 
 	void startPump();
 	void stopPump();
@@ -45,12 +50,23 @@ public:
 	void sendActuatorCommand(eJoint joint, float command);
 	float getDoF(eJoint joint);
 
+	float getPressure();
+
+	void setup();
+	void loop();
+
+
+
 protected:
 	Communication communication;
 	DynamixelClass& _dynamixels;
 	DCMotor _zAxisMotor;
-};
+	DebugInterface _debugInterface;
+	SuccionCup _succionCup;
 
-extern Armothy m_armothy;
+	unsigned long _lastCommunicationTime, _lastDebugTime, _lastDcMotorTime, _lastSuccionTime, _lastDebugLedTime;
+	bool _debugLedState;
+};
+}
 
 #endif /* ARMOTHY_H_ */

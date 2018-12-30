@@ -7,7 +7,7 @@ Contact: Savage Electronics - Electronics For Everyone
 
 Version: Dynamixel Library 15/01/2012 GPL v2.1
 
- Dynamixel Serial5 Version 1.2.0
+ Dynamixel Serial3 Version 1.2.0
 
 Requeriments:
 

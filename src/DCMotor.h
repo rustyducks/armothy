@@ -21,7 +21,12 @@ public:
 	void go_to(double position);
 	void home();
 
+	void setup();
 	void loop();
+
+	void stop();
+
+	bool isMoving();
 
 private:
 	static constexpr float INC_PER_MM = 50;
@@ -36,8 +41,6 @@ private:
 	int _prevError;
 	int _integralError;
 };
-
-extern DCMotor dcmotor;
 
 void ISR_INC1();
 void ISR_INC2();

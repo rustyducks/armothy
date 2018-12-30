@@ -8,9 +8,45 @@
 #include "Armothy.h"
 #include "params.h"
 
-Armothy m_armothy;
+using namespace armothy;
 
-Armothy::Armothy() : _dynamixels(Dynamixel){
+Armothy::Armothy() : _dynamixels(Dynamixel), _lastCommunicationTime(0), _lastDebugTime(0), _lastDcMotorTime(0), _lastSuccionTime(0), _lastDebugLedTime(0), _debugLedState(false){
+
+}
+
+void Armothy::setup(){
+	pinMode(DEBUG_LED, OUTPUT);
+	digitalWrite(DEBUG_LED, _debugLedState);
+	communication.setup(this);
+	_debugInterface.setup(this);
+	_zAxisMotor.setup();
+	_succionCup.setup();
+}
+
+void Armothy::loop(){
+	unsigned long time = millis();
+	if (time - _lastCommunicationTime >= COMMUNICATION_PERIOD){
+		communication.loop();
+		_lastCommunicationTime = time;
+	}
+	if (time - _lastDebugTime >= DEBUG_INTERFACE_PERIOD){
+		_debugInterface.loop();
+		_lastDebugTime = time;
+	}
+	if (time - _lastDcMotorTime >= DC_MOTOR_PERIOD){
+		_zAxisMotor.loop();
+		_lastDcMotorTime = time;
+	}
+	if (time - _lastSuccionTime >= SUCCION_CUP_PERIOD){
+		_succionCup.loop();
+		_lastSuccionTime = time;
+	}
+
+	if (time - _lastDebugLedTime >= 1000){
+		_debugLedState ^= 1;
+		digitalWrite(DEBUG_LED, _debugLedState);
+		_lastDebugLedTime = time;
+	}
 }
 
 void Armothy::home(){
@@ -20,29 +56,27 @@ void Armothy::home(){
 }
 
 void Armothy::startPump() {
-	// TODO
+	_succionCup.startPump();
 }
 
 void Armothy::stopPump() {
-	//TODO
+	_succionCup.stopPump();
 }
 
 Armothy::ePumpState Armothy::getPumpState() {
-	//TODO
-	return PUMP_OFF;
+	return (ePumpState)_succionCup.getPumpState();
 }
 
 void Armothy::openValve() {
-	//TODO
+	_succionCup.openValve();
 }
 
 void Armothy::closeValve() {
-	//TODO
+	_succionCup.closeValve();
 }
 
 Armothy::eValveState Armothy::getValveState() {
-	//TODO
-	return VALVE_CLOSED;
+	return (eValveState)_succionCup.getValveState();
 }
 
 void Armothy::sendActuatorCommand(eJoint joint, float command) {
@@ -70,5 +104,24 @@ float Armothy::getDoF(eJoint joint) {
 	case REVOLUTE_Y_AXIS:
 		return _dynamixels.readPosition(Y_AXIS_DYNAMIXEL_ID) - DYNAMIXEL_TO_0_2;
 		break;
+	default:
+		return 0;
+		break;
 	}
+}
+
+void Armothy::emergencyStop(){
+	_zAxisMotor.stop();
+	_dynamixels.move(Z_AXIS_DYNAMIXEL_ID, _dynamixels.readPosition(Z_AXIS_DYNAMIXEL_ID));
+	_dynamixels.move(Y_AXIS_DYNAMIXEL_ID, _dynamixels.readPosition(Y_AXIS_DYNAMIXEL_ID));
+	_succionCup.stopPump();
+	_succionCup.openValve();
+}
+
+bool Armothy::isMoving(){
+	return _zAxisMotor.isMoving(); // Maybe also check the Dynamixels
+}
+
+float Armothy::getPressure(){
+	return _succionCup.getPressure();
 }

@@ -11,6 +11,8 @@
 
 namespace armothy {
 
+class Armothy;
+
 class DebugInterface {
 protected:
 	enum eState{
@@ -22,7 +24,7 @@ protected:
 		COMMANDING_DOF_3,
 		DISPLAYING_POSITION
 	};
-	eState state;
+	eState _state;
 	enum eCmd{
 		HOME = 1,
 		CMD_DOF_1 = 2,
@@ -43,17 +45,16 @@ protected:
 	 */
 	int readDoFCommand(float* value);
 
-	char input[1024];
-	unsigned int inputLength;
+	char _input[1025];
+	unsigned int _inputLength;
+	Armothy* _armothy;
 public:
 	DebugInterface();
 	virtual ~DebugInterface();
 
-	void init();
+	void setup(Armothy* arm);
 	void loop();
 };
-
-extern DebugInterface debugInterface;
 
 } /* namespace armothy */
 
