@@ -1,0 +1,3 @@
+[submodule "src/libraries/DynamixelTeensySerial"]
+	path = src/libraries/DynamixelTeensySerial
+	url = https://github.com/rustyducks/DynamixelTeensySerial.git

@@ -8,7 +8,7 @@
 #ifndef ARMOTHY_H_
 #define ARMOTHY_H_
 
-#include <DynamixelSerial3.h>
+#include <DynamixelSerial.h>
 
 #include "Communication.h"
 #include "DCMotor.h"
@@ -59,7 +59,7 @@ public:
 
 protected:
 	Communication communication;
-	DynamixelClass& _dynamixels;
+	DynamixelSerial _dynamixels;
 	DCMotor _zAxisMotor;
 	DebugInterface _debugInterface;
 	SuccionCup _succionCup;

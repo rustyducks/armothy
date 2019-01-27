@@ -10,7 +10,7 @@
 
 using namespace armothy;
 
-Armothy::Armothy() : _dynamixels(Dynamixel), _lastCommunicationTime(0), _lastDebugTime(0), _lastDcMotorTime(0), _lastSuccionTime(0), _lastDebugLedTime(0), _debugLedState(false){
+Armothy::Armothy() : _dynamixels(3, Serial3), _lastCommunicationTime(0), _lastDebugTime(0), _lastDcMotorTime(0), _lastSuccionTime(0), _lastDebugLedTime(0), _debugLedState(false){
 
 }
 

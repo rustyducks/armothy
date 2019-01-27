@@ -20,7 +20,8 @@
 							<tool id="io.sloeber.tool.sketch.compiler.cpp.790813441" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp">
 								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.2057881882" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/libraries/DynamixelSerial3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/OpenDynamixel}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/libraries/DynamixelTeensySerial}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire}&quot;"/>
@@ -40,7 +41,8 @@
 							<tool id="io.sloeber.tool.sketch.compiler.s.778216366" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s">
 								<option id="io.sloeber.compiler.asm.sketch.option.incpath.1732696744" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/src/core/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/libraries/DynamixelSerial3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/OpenDynamixel}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/libraries/DynamixelTeensySerial}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire/utility}&quot;"/>
