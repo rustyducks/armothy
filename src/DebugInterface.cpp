@@ -46,6 +46,9 @@ void DebugInterface::loop(){
 	case NOT_INIT:
 		break;
 	case MENU_TO_DISPLAY:
+		while(Serial.available()){
+			Serial.read();
+		}
 		displayMenu();
 		_state = MENU_DISPLAYED;
 		break;
