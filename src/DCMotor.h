@@ -31,8 +31,8 @@ public:
 private:
 	static constexpr float INC_PER_MM = 50;
 	static constexpr float KP = 5;
-	static constexpr float KI = 2;
-	static constexpr float KD = 10;
+	static constexpr float KI = 0;
+	static constexpr float KD = 0;
 	static constexpr int MIN_INTEGRAL = -255;
 	static constexpr int MAX_INTEGRAL = 255;
 	volatile long _inc;

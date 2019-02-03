@@ -9,7 +9,7 @@
 #include "params.h"
 #include "utils.h"
 
-#define sig(x) (x) > 0 ? 1 : 0
+#define sig(x) (x) > 0 ? HIGH : LOW
 
 constexpr float DCMotor::INC_PER_MM;
 constexpr float DCMotor::KP;
@@ -51,7 +51,7 @@ void DCMotor::setup(){
 	pinMode(VERTICAL_MOTOR_DIR, OUTPUT);
 	pinMode(VERTICAL_ENCODER_A, INPUT);
 	pinMode(VERTICAL_ENCODER_B, INPUT);
-	pinMode(VERTICAL_LIMIT_SWITCH, INPUT);
+	pinMode(VERTICAL_LIMIT_SWITCH, INPUT_PULLUP);
 	attachInterrupt(VERTICAL_ENCODER_A, ISR_INC1, RISING);
 	attachInterrupt(VERTICAL_ENCODER_B, ISR_INC2, RISING);
 	attachInterrupt(VERTICAL_LIMIT_SWITCH, ISR_STOP, RISING);
