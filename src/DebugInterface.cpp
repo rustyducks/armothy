@@ -84,6 +84,7 @@ void DebugInterface::loop(){
 	case COMMANDING_DOF_1:
 		ret = readDoFCommand(&value);
 		if (ret == 0){
+			Serial.println(value);
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, value);
 		}else if (ret == 1){
 			_state = MENU_TO_DISPLAY;
@@ -94,20 +95,28 @@ void DebugInterface::loop(){
 	case COMMANDING_DOF_2:
 		ret = readDoFCommand(&value);
 		if (ret == 0){
+			Serial.println(value);
 			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, value);
 		}else if (ret == 1){
 			_state = MENU_TO_DISPLAY;
 		}else if (ret == -1){
+			while(Serial.available()){
+				Serial.read();
+			}
 			Serial.println("Please enter a valid float (or q to quit).");
 		}
 		break;
 	case COMMANDING_DOF_3:
 		ret = readDoFCommand(&value);
 		if (ret == 0){
+			Serial.println(value);
 			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Y_AXIS, value);
 		}else if (ret == 1){
 			_state = MENU_TO_DISPLAY;
 		}else if (ret == -1){
+			while(Serial.available()){
+				Serial.read();
+			}
 			Serial.println("Please enter a valid float (or q to quit).");
 		}
 		break;
@@ -151,7 +160,7 @@ int DebugInterface::readDoFCommand(float* value){
 				_input[_inputLength] = (char)inChar;
 				_inputLength++;
 				return -3; // Read one char... Waiting for \r
-			}else if (inChar == '\r'){
+			}else if (inChar == '\r' || inChar =='\n'){
 				_input[_inputLength] = '\0';
 				int parsed = parseFloatValue(value);
 				_inputLength = 0;
@@ -159,6 +168,7 @@ int DebugInterface::readDoFCommand(float* value){
 					Serial.println("You need to enter a valid double...");
 					return -1;
 				}else{
+					while (Serial.available()) Serial.read();
 					return 0;
 				}
 			}else if (inChar == (int)'q'){
