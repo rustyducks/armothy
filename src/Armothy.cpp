@@ -21,6 +21,7 @@ void Armothy::setup(){
 	_debugInterface.setup(this);
 	_zAxisMotor.setup();
 	_succionCup.setup();
+	_dynamixels.begin(1000000);
 }
 
 void Armothy::loop(){
