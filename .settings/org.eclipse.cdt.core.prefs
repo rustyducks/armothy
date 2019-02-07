@@ -175,13 +175,13 @@ environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.AR.PAT
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.AR.PATTERN/value="${A.COMPILER.PATH}${A.BUILD.TOOLCHAIN}${A.BUILD.COMMAND.AR}" rcs "${A.BUILD.PATH}/core/${A.ARCHIVE_FILE}" "${A.OBJECT_FILE}"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-gcc" -Og -flto -fno-fat-lto-objects -Wl,--gc-sections,--relax,--defsym\=__rtc_localtime\=1546203622 "-T/usr/share/arduino-1.8.5/hardware/teensy/avr/cores/teensy3/mk20dx256.ld" -lstdc++ -fuse-linker-plugin -mthumb -mcpu\=cortex-m4 -fsingle-precision-constant -o "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.elf" 
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-gcc" -Og -flto -fno-fat-lto-objects -Wl,--gc-sections,--relax,--defsym\=__rtc_localtime\=1546203622 "-T/usr/share/arduino-1.8.5/hardware/teensy/avr/cores/teensy3/mk20dx256.ld" -lstdc++ -fuse-linker-plugin -mthumb -mcpu\=cortex-m4 -fsingle-precision-constant -o "${ProjDirPath}/Release/armothy.elf" 
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.2/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.2/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.2/value=\ 
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.3/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.3/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.3/value=\ "-L/home/guilhem/Documents/rusty_ducks/armothy/Release" -larm_cortexM4l_math -lm
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN.3/value=\ "-L${ProjDirPath}/Release" -larm_cortexM4l_math -lm
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.C.COMBINE.PATTERN/value="${A.COMPILER.PATH}${A.BUILD.TOOLCHAIN}${A.BUILD.COMMAND.GCC}" ${A.BUILD.FLAGS.OPTIMIZE} ${A.BUILD.FLAGS.LD} ${A.BUILD.FLAGS.LDSPECS} ${A.BUILD.FLAGS.CPU} -o "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.elf" ${A.OBJECT_FILES} "${A.BUILD.PATH}/${A.ARCHIVE_FILE}" "-L${A.BUILD.PATH}" ${A.BUILD.FLAGS.LIBS}
@@ -223,13 +223,13 @@ environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.HOOKS.
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.HOOKS.POSTBUILD.3.PATTERN/value="${A.COMPILER.PATH}teensy_post_compile" "-file\=${A.BUILD.PROJECT_NAME}" "-path\=${A.BUILD.PATH}" "-tools\=${A.COMPILER.PATH}" "-board\=${A.BUILD.BOARD}"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.EEP.PATTERN.1/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.EEP.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.EEP.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-objcopy" -O ihex -j .eeprom --set-section-flags\=.eeprom\=alloc,load --no-change-warnings --change-section-lma .eeprom\=0 "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.elf" "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.eep"
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.EEP.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-objcopy" -O ihex -j .eeprom --set-section-flags\=.eeprom\=alloc,load --no-change-warnings --change-section-lma .eeprom\=0 "${ProjDirPath}/Release/armothy.elf" "${ProjDirPath}/Release/armothy.eep"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.EEP.PATTERN/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.EEP.PATTERN/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.EEP.PATTERN/value="${A.COMPILER.PATH}${A.BUILD.TOOLCHAIN}${A.BUILD.COMMAND.OBJCOPY}" ${A.COMPILER.OBJCOPY.EEP.FLAGS} "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.elf" "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.eep"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.HEX.PATTERN.1/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.HEX.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.HEX.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.elf" "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.hex"
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.HEX.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom "${ProjDirPath}/Release/armothy.elf" "${ProjDirPath}/Release/armothy.hex"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.HEX.PATTERN/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.HEX.PATTERN/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.OBJCOPY.HEX.PATTERN/value="${A.COMPILER.PATH}${A.BUILD.TOOLCHAIN}${A.BUILD.COMMAND.OBJCOPY}" ${A.COMPILER.ELF2HEX.FLAGS} "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.elf" "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.hex"
@@ -265,7 +265,7 @@ environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.S.O.PA
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.S.O.PATTERN/value="${A.COMPILER.PATH}${A.BUILD.TOOLCHAIN}${A.BUILD.COMMAND.GCC}" -c ${A.BUILD.FLAGS.OPTIMIZE} ${A.BUILD.FLAGS.COMMON} ${A.BUILD.FLAGS.DEP} ${A.BUILD.FLAGS.S} ${A.BUILD.FLAGS.CPU} ${A.BUILD.FLAGS.DEFS} -DARDUINO\=${A.RUNTIME.IDE.VERSION} -DF_CPU\=${A.BUILD.FCPU} -D${A.BUILD.USBTYPE} -DLAYOUT_${A.BUILD.KEYLAYOUT} ${A.INCLUDES} "${A.SOURCE_FILE}" -o "${A.OBJECT_FILE}"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.SIZE.PATTERN.1/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.SIZE.PATTERN.1/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.SIZE.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-size" -A "/home/guilhem/Documents/rusty_ducks/armothy/Release/armothy.elf"
+environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.SIZE.PATTERN.1/value="/usr/share/arduino-1.8.5/hardware/teensy/../tools/arm/bin/arm-none-eabi-size" -A "${ProjDirPath}/Release/armothy.elf"
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.SIZE.PATTERN/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.SIZE.PATTERN/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1612820720/A.RECIPE.SIZE.PATTERN/value="${A.COMPILER.PATH}${A.BUILD.TOOLCHAIN}${A.BUILD.COMMAND.SIZE}" -A "${A.BUILD.PATH}/${A.BUILD.PROJECT_NAME}.elf"
