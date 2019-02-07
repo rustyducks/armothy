@@ -31,12 +31,12 @@ void SuccionCup::loop(){
 }
 
 void SuccionCup::startPump() {
-	digitalWrite(PUMP_PIN, HIGH);
+	digitalWrite(PUMP_PIN, LOW);
 	_pumpState = PUMP_ON;
 }
 
 void SuccionCup::stopPump() {
-	digitalWrite(PUMP_PIN, LOW);
+	digitalWrite(PUMP_PIN, HIGH);
 	_pumpState = PUMP_OFF;
 }
 

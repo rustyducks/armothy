@@ -9,7 +9,7 @@
 #include "params.h"
 #include "utils.h"
 
-#define sig(x) (x) > 0 ? HIGH : LOW
+#define sig(x) ((x) > 0) ? HIGH : LOW
 
 constexpr float DCMotor::INC_PER_MM;
 constexpr float DCMotor::KP;
@@ -48,10 +48,12 @@ bool DCMotor::isMoving(){
 void DCMotor::setup(){
 	dcmotor = this;
 	pinMode(VERTICAL_MOTOR_PWM, OUTPUT);
-	pinMode(VERTICAL_MOTOR_DIR, OUTPUT);
+	pinMode(VERTICAL_MOTOR_DIR_A, OUTPUT);
+	pinMode(VERTICAL_MOTOR_DIR_B, OUTPUT);
 	pinMode(VERTICAL_ENCODER_A, INPUT);
 	pinMode(VERTICAL_ENCODER_B, INPUT);
 	pinMode(VERTICAL_LIMIT_SWITCH, INPUT_PULLUP);
+	analogWriteFrequency(VERTICAL_MOTOR_PWM, 549.3164);
 	attachInterrupt(VERTICAL_ENCODER_A, ISR_INC1, RISING);
 	attachInterrupt(VERTICAL_ENCODER_B, ISR_INC2, RISING);
 	attachInterrupt(VERTICAL_LIMIT_SWITCH, ISR_STOP, RISING);
@@ -67,7 +69,8 @@ void DCMotor::loop(){
 	float command = KP * error + KI * _integralError + KP * derivError;
 	int boundedCommand = clamp(-255, (int)command, 255);
 
-	digitalWrite(VERTICAL_MOTOR_DIR, sig(boundedCommand));
+	digitalWrite(VERTICAL_MOTOR_DIR_A, sig(boundedCommand));
+	digitalWrite(VERTICAL_MOTOR_DIR_B, !sig(boundedCommand));
 	analogWrite(VERTICAL_MOTOR_PWM, abs(boundedCommand));
 }
 
