@@ -218,6 +218,7 @@ int DebugInterface::parseACode(sAcodeResult* res){
 }
 
 int DebugInterface::readACode(sAcodeResult* res){
+	int returnValue = -1;
 	if (Serial.available() > 0){
 		int toRead = Serial.available();
 		for (int i = 0; i < toRead; i++){
@@ -226,7 +227,8 @@ int DebugInterface::readACode(sAcodeResult* res){
 					||inChar == 'Y'||inChar == 'P'||inChar == 'S'||inChar == 'V'){
 				_input[_inputLength] = (char)inChar;
 				_inputLength++;
-				return -3; //Read one char... Waiting for \r
+				returnValue = -3; //Read one char... Waiting for \r
+				continue;
 			}else if (inChar == '\r' || inChar == '\n'){
 				_input[_inputLength] = '\0';
 				int parsed = parseACode(res);
@@ -243,6 +245,7 @@ int DebugInterface::readACode(sAcodeResult* res){
 				return 1;
 			}
 		}
+		return returnValue;
 	}else{
 		return -2; // Nothing to read
 	}
@@ -250,6 +253,7 @@ int DebugInterface::readACode(sAcodeResult* res){
 }
 
 int DebugInterface::readDoFCommand(float* value){
+	int returnValue = -1;
 	if (Serial.available() > 0){
 		int toRead = Serial.available();
 		for (int i = 0; i < toRead; i++){
@@ -257,7 +261,8 @@ int DebugInterface::readDoFCommand(float* value){
 			if (isDigit(inChar)||inChar == '-'||inChar == '.'){
 				_input[_inputLength] = (char)inChar;
 				_inputLength++;
-				return -3; // Read one char... Waiting for \r
+				returnValue = -3; // Read one char... Waiting for \r
+				continue;
 			}else if (inChar == '\r' || inChar =='\n'){
 				_input[_inputLength] = '\0';
 				int parsed = parseFloatValue(value);
@@ -273,6 +278,7 @@ int DebugInterface::readDoFCommand(float* value){
 				return 1;
 			}
 		}
+		return returnValue;
 	}else{
 		return -2; // Nothing to read
 	}
