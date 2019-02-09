@@ -26,10 +26,10 @@ protected:
 	};
 	eState _state;
 	enum eCmd{
-		HOME = 1,
-		CMD_DOF_1 = 2,
-		CMD_DOF_2 = 3,
-		CMD_DOF_3 = 4,
+		CMD_DOF_1 = 1,
+		CMD_DOF_2 = 2,
+		CMD_DOF_3 = 3,
+		HOME = 4,
 		TOGGLE_PUMP = 5,
 		TOGGLE_VALVE = 6,
 		MONITOR = 7

@@ -23,10 +23,10 @@ void DebugInterface::displayMenu(){
 	Serial.print('\n');
 	Serial.print("Armothy v");Serial.print(MAJOR_VERSION);Serial.print(".");Serial.print(MINOR_VERSION);
 	Serial.println(". Debug interface menu (enter 1-7 and press enter) :");
-	Serial.println("1. Go to home position");
-	Serial.println("2. Command DoF 1 (z translation)");
-	Serial.println("3. Command DoF 2 (z rotation)");
-	Serial.println("4. Command DoF 3 (y rotation)");
+	Serial.println("1. Command DoF 1 (z translation)");
+	Serial.println("2. Command DoF 2 (z rotation)");
+	Serial.println("3. Command DoF 3 (y rotation)");
+	Serial.println("4. Go to home position");
 	Serial.println("5. Toggle Vacuum Pump");
 	Serial.println("6. Toggle Valve");
 	Serial.println("7. Monitor DoF Values (press a key to quit)");
