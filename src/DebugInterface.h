@@ -22,6 +22,7 @@ protected:
 		COMMANDING_DOF_1,
 		COMMANDING_DOF_2,
 		COMMANDING_DOF_3,
+		ACODE_MODE,
 		DISPLAYING_POSITION
 	};
 	eState _state;
@@ -32,13 +33,25 @@ protected:
 		HOME = 4,
 		TOGGLE_PUMP = 5,
 		TOGGLE_VALVE = 6,
-		MONITOR = 7
+		ACODE = 7,
+		MONITOR = 8
+	};
+
+	struct sAcodeResult{
+		char filledValues;  // & 0x01: zTranslationCmd, & 0x02: zRotationCmd, & 0x04: yRotationCmd, & 0x08: valveCmd, & 0x10: pumpCmd
+		float zTranslationCmd;
+		float zRotationCmd;
+		float yRotationCmd;
+		bool valveCmd;
+		bool pumpCmd;
 	};
 
 	void displayMenu();
 	int parseCmd();
 	void processCmd(eCmd cmd);
 	int parseFloatValue(float* value);
+	int parseACode(sAcodeResult* res);
+	int readACode(sAcodeResult* res);
 	/**
 	 * Tries to read a DoF command (float) from the Serial.
 	 * @return: 1 if q has been entered, 0 if a value is in the `value parameter`, -1 otherwise.

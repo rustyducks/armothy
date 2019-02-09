@@ -12,7 +12,7 @@
 
 //######## Versioning ########
 constexpr int MAJOR_VERSION = 0;
-constexpr int MINOR_VERSION = 2;
+constexpr int MINOR_VERSION = 3;
 
 //######## Network stuff #######
 constexpr int I2C_ADDRESS = 0x74;
