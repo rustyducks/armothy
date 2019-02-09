@@ -207,7 +207,7 @@ int DebugInterface::parseACode(sAcodeResult* res){
 		res->filledValues |= 0x08;
 	}
 	if (sscanf(_input, "%*[^V]V%d", &valve) == 1){
-		res->pumpCmd = (bool)valve;
+		res->valveCmd = (bool)valve;
 		res->filledValues |= 0x10;
 	}
 	if (res->filledValues == 0){
