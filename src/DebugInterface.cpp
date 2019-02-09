@@ -156,7 +156,7 @@ void DebugInterface::loop(){
 			while(Serial.available()){
 				Serial.read();
 			}
-			Serial.println("Valid Acode command are like: Z50 Y150 P300 V0 S1. Press q to exit");
+			Serial.println("Valid Acode command are like: z50 y150 p300 v0 s1. Press q to exit");
 		}
 		break;
 	case DISPLAYING_POSITION:
@@ -193,20 +193,20 @@ int DebugInterface::parseFloatValue(float* value){
 int DebugInterface::parseACode(sAcodeResult* res){
 	int valve, pump;
 	res->filledValues = 0;
-	if (sscanf(_input, "%*[^Z]Z%f", &(res->zTranslationCmd)) == 1){
+	if (sscanf(_input, "%*[^z]z%f", &(res->zTranslationCmd)) == 1){
 		res->filledValues |= 0x01;
 	}
-	if (sscanf(_input, "%*[^Y]Y%f", &(res->zRotationCmd)) == 1){
+	if (sscanf(_input, "%*[^y]y%f", &(res->zRotationCmd)) == 1){
 		res->filledValues |= 0x02;
 	}
-	if (sscanf(_input, "%*[^P]P%f", &(res->yRotationCmd)) == 1){
+	if (sscanf(_input, "%*[^p]p%f", &(res->yRotationCmd)) == 1){
 		res->filledValues |= 0x04;
 	}
-	if (sscanf(_input, "%*[^S]S%d", &pump) == 1){
+	if (sscanf(_input, "%*[^s]s%d", &pump) == 1){
 		res->pumpCmd = (bool)pump;
 		res->filledValues |= 0x08;
 	}
-	if (sscanf(_input, "%*[^V]V%d", &valve) == 1){
+	if (sscanf(_input, "%*[^v]v%d", &valve) == 1){
 		res->valveCmd = (bool)valve;
 		res->filledValues |= 0x10;
 	}
@@ -223,8 +223,10 @@ int DebugInterface::readACode(sAcodeResult* res){
 		int toRead = Serial.available();
 		for (int i = 0; i < toRead; i++){
 			int inChar = Serial.read();
-			if (isDigit(inChar)||inChar == '-'||inChar == '.'||inChar == ' '||inChar == 'Z'
-					||inChar == 'Y'||inChar == 'P'||inChar == 'S'||inChar == 'V'){
+			if (isDigit(inChar)||inChar == '-'||inChar == '.'||inChar == ' '
+					||inChar == 'Z'||inChar == 'Y'||inChar == 'P'||inChar == 'S'||inChar == 'V'
+					||inChar == 'z'||inChar == 'y'||inChar == 'p'||inChar == 's'||inChar == 'v'){
+				inChar = (inChar <= 'Z' && inChar >= 'A') ? inChar + 32 : inChar;
 				_input[_inputLength] = (char)inChar;
 				_inputLength++;
 				returnValue = -3; //Read one char... Waiting for \r
@@ -325,7 +327,7 @@ void DebugInterface::processCmd(eCmd cmd){
 		_state = MENU_TO_DISPLAY;
 		break;
 	case ACODE:
-		Serial.println("Acode mode. Example: Z50 Y60 P45 S1 V0");
+		Serial.println("Acode mode. Example: z50 y60 p45 s1 v0");
 		_inputLength = 1;
 		_input[0] = '$'; // A starting character for easier acode line parsing
 		_state = ACODE_MODE;
