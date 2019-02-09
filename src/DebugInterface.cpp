@@ -156,7 +156,7 @@ void DebugInterface::loop(){
 			while(Serial.available()){
 				Serial.read();
 			}
-			Serial.println("Valid Acode command are like: Z50 R150 P300 V0 P1. Press q to exit");
+			Serial.println("Valid Acode command are like: Z50 Y150 P300 V0 S1. Press q to exit");
 		}
 		break;
 	case DISPLAYING_POSITION:
@@ -196,7 +196,7 @@ int DebugInterface::parseACode(sAcodeResult* res){
 	if (sscanf(_input, "%*[^Z]Z%f", &(res->zTranslationCmd)) == 1){
 		res->filledValues |= 0x01;
 	}
-	if (sscanf(_input, "%*[^R]R%f", &(res->zRotationCmd)) == 1){
+	if (sscanf(_input, "%*[^Y]Y%f", &(res->zRotationCmd)) == 1){
 		res->filledValues |= 0x02;
 	}
 	if (sscanf(_input, "%*[^P]P%f", &(res->yRotationCmd)) == 1){
