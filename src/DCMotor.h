@@ -35,6 +35,7 @@ private:
 	static constexpr float KD = 0;
 	static constexpr int MIN_INTEGRAL = -255;
 	static constexpr int MAX_INTEGRAL = 255;
+	bool _isHoming;
 	volatile long _inc;
 	int _goal_inc;
 

@@ -20,11 +20,20 @@ constexpr int DCMotor::MAX_INTEGRAL;
 
 DCMotor * dcmotor = nullptr;
 
-DCMotor::DCMotor() : _inc(0), _goal_inc(0), _prevError(0), _integralError(0){
+DCMotor::DCMotor() : _isHoming(false), _inc(0), _goal_inc(0), _prevError(0), _integralError(0){
 }
 
 void DCMotor::home(){
-	_goal_inc = -500 * INC_PER_MM;
+	if (digitalRead(VERTICAL_LIMIT_SWITCH)){
+		// Motor already in limit. Just go down until switch deactivates, then go up
+		_inc = 0;
+		_isHoming = true;
+		_goal_inc = 500 * INC_PER_MM;
+	}else{
+		// Motor not in limit, go up until switch is activated
+		_goal_inc = -500 * INC_PER_MM;
+		_isHoming = false;
+	}
 }
 
 void DCMotor::stop(){
@@ -72,6 +81,12 @@ void DCMotor::loop(){
 	digitalWrite(VERTICAL_MOTOR_DIR_A, sig(boundedCommand));
 	digitalWrite(VERTICAL_MOTOR_DIR_B, !sig(boundedCommand));
 	analogWrite(VERTICAL_MOTOR_PWM, abs(boundedCommand));
+
+	if (_isHoming && !digitalRead(VERTICAL_LIMIT_SWITCH)){
+		// Was homing and now the limit switch is off, go up until it turns on again.
+		_isHoming = false;
+		home();
+	}
 }
 
 void DCMotor::isr_inc1(){
