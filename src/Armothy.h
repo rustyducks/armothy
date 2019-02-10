@@ -14,6 +14,7 @@
 #include "DCMotor.h"
 #include "DebugInterface.h"
 #include "SuccionCup.h"
+#include "Metro.h"
 
 namespace armothy{
 class Armothy {
@@ -64,7 +65,8 @@ protected:
 	DebugInterface _debugInterface;
 	SuccionCup _succionCup;
 
-	unsigned long _lastCommunicationTime, _lastDebugTime, _lastDcMotorTime, _lastSuccionTime, _lastDebugLedTime;
+	Metro communicationMetro, debugMetro, dcMotorMetro, succionMetro, degubLedMetro;
+
 	bool _debugLedState;
 };
 }

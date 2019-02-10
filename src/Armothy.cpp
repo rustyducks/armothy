@@ -7,10 +7,13 @@
 
 #include "Armothy.h"
 #include "params.h"
+#include "Metro.h"
 
 using namespace armothy;
 
-Armothy::Armothy() : _dynamixels(3, Serial3), _lastCommunicationTime(0), _lastDebugTime(0), _lastDcMotorTime(0), _lastSuccionTime(0), _lastDebugLedTime(0), _debugLedState(false){
+Armothy::Armothy() : _dynamixels(3, Serial3),
+		communicationMetro(COMMUNICATION_PERIOD), debugMetro(DEBUG_INTERFACE_PERIOD),
+		dcMotorMetro(DC_MOTOR_PERIOD), succionMetro(SUCCION_CUP_PERIOD), degubLedMetro(1000), _debugLedState(false){
 
 }
 
@@ -25,28 +28,22 @@ void Armothy::setup(){
 }
 
 void Armothy::loop(){
-	unsigned long time = millis();
-	if (time - _lastCommunicationTime >= COMMUNICATION_PERIOD){
+	if (communicationMetro.check()){
 		communication.loop();
-		_lastCommunicationTime = time;
 	}
-	if (time - _lastDebugTime >= DEBUG_INTERFACE_PERIOD){
+	if (debugMetro.check()){
 		_debugInterface.loop();
-		_lastDebugTime = time;
 	}
-	if (time - _lastDcMotorTime >= DC_MOTOR_PERIOD){
+	if (dcMotorMetro.check()){
 		_zAxisMotor.loop();
-		_lastDcMotorTime = time;
 	}
-	if (time - _lastSuccionTime >= SUCCION_CUP_PERIOD){
+	if (succionMetro.check()){
 		_succionCup.loop();
-		_lastSuccionTime = time;
 	}
 
-	if (time - _lastDebugLedTime >= 1000){
+	if (degubLedMetro.check()){
 		_debugLedState ^= 1;
 		digitalWrite(DEBUG_LED, _debugLedState);
-		_lastDebugLedTime = time;
 	}
 }
 

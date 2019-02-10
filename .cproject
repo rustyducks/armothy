@@ -25,6 +25,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Metro}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.141933544" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -34,6 +35,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Metro}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.490751728" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -44,6 +46,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Metro}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.905567537" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
