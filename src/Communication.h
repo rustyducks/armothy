@@ -35,6 +35,8 @@ protected:
 	START_PUMP_CMD,
 	CLOSE_VALVE_CMD,
 	OPEN_VALVE_CMD,
+	MACRO_CMD,			//Expects a 1 byte integer with this command
+
 	EMERGENCY_STOP_CMD,
 
 	// Request commands (answer length specified in comment)
@@ -47,13 +49,14 @@ protected:
 	PRESSURE_RQST // 4 bytes (float) /!\ Should be the last one in this enum !
 	};
 
-	union uFloat{
+	union uArg{
+		uint8_t i;
 		float f;
 		uint8_t data[4];
 	};
 	struct sCommand{
 		eCommandByte cmd;
-		uFloat arg;
+		uArg arg;
 	};
 	struct sCommandBuffer{
 		uint8_t readIndex;
