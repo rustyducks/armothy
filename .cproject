@@ -22,7 +22,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/libraries/DynamixelTeensySerial}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/macros}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/core/core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/armothy/libraries/Wire/utility}&quot;"/>

@@ -14,7 +14,6 @@
 #include "DCMotor.h"
 #include "DebugInterface.h"
 #include "SuccionCup.h"
-#include "MacroManager.h"
 #include "Metro.h"
 
 namespace armothy{
@@ -65,9 +64,8 @@ protected:
 	DCMotor _zAxisMotor;
 	DebugInterface _debugInterface;
 	SuccionCup _succionCup;
-	MacroManager _macroManager;
 
-	Metro communicationMetro, debugMetro, dcMotorMetro, succionMetro, degubLedMetro, macroManagerMetro;
+	Metro communicationMetro, debugMetro, dcMotorMetro, succionMetro, degubLedMetro;
 
 	bool _debugLedState;
 };

@@ -30,7 +30,7 @@ void Communication::setup(Armothy * arm){
 void Communication::loop(){
 	while (_waitingCommands.readIndex != _waitingCommands.writeIndex){
 		eCommandByte cmd = _waitingCommands.commands[_waitingCommands.readIndex].cmd;
-		uArg arg = _waitingCommands.commands[_waitingCommands.readIndex].arg;
+		uFloat arg = _waitingCommands.commands[_waitingCommands.readIndex].arg;
 		_waitingCommands.readIndex = (_waitingCommands.readIndex + 1) % COMMAND_BUFFER_SIZE;
 		if (cmd == START_CALIBRATION_CMD){
 			_armothy->home();
@@ -48,8 +48,6 @@ void Communication::loop(){
 			_armothy->closeValve();
 		}else if (cmd == OPEN_VALVE_CMD){
 			_armothy->openValve();
-		} else if(cmd == MACRO_CMD) {
-
 		}else if (cmd == EMERGENCY_STOP_CMD){
 			_armothy->emergencyStop();
 		}
@@ -73,13 +71,6 @@ void Communication::onReceive(int receivedSize){
 						}
 					}else{
 						// This should not happen... (it means we received a direct command without arguments)
-					}
-				}
-				else if(cmd == MACRO_CMD) {
-					if (receivedSize == 1){
-						_waitingCommands.commands[_waitingCommands.writeIndex].arg.data[0] = Wire.read();
-					} else {
-						// This should not happen... (it means we received a macro command without argument)
 					}
 				}
 				_waitingCommands.writeIndex = (_waitingCommands.writeIndex + 1) % COMMAND_BUFFER_SIZE;
@@ -112,7 +103,7 @@ void Communication::onRequest(){
 }
 
 void Communication::sendFloat(float toSend){
-	uArg f;
+	uFloat f;
 	f.f = toSend;
 	Wire.write(f.data, 4);
 }
