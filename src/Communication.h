@@ -13,13 +13,14 @@
 namespace armothy{
 
 class Armothy;
+class MacroManager;
 
 class Communication {
 public:
 	Communication();
 	virtual ~Communication(){};
 
-	void setup(Armothy* arm);
+	void setup(Armothy* arm, MacroManager* macroManager);
 	void loop();
 	static void SOnReceive(int receivedSize);
 	static void SOnRequest();
@@ -68,6 +69,7 @@ protected:
 	eCommandByte _waitingRequest;
 
 	Armothy * _armothy;
+	MacroManager* _macroManager;
 
 	static Communication * _instance;
 	static void setInstance(Communication * instance);

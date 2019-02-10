@@ -9,18 +9,20 @@
 #include <Wire.h>
 #include "params.h"
 #include "Armothy.h"
+#include "MacroManager.h"
 
 using namespace armothy;
 
 Communication * Communication::_instance = nullptr;
 
-Communication::Communication(): _waitingRequest(CALIBRATION_ENDED_RQST), _armothy(nullptr){
+Communication::Communication(): _waitingRequest(CALIBRATION_ENDED_RQST), _armothy(nullptr), _macroManager(nullptr){
 	_waitingCommands.readIndex = 0;
 	_waitingCommands.writeIndex = 0;
 }
 
-void Communication::setup(Armothy * arm){
+void Communication::setup(Armothy * arm, MacroManager* macroManager){
 	_armothy = arm;
+	_macroManager = macroManager;
 	setInstance(this);
 	Wire.begin(I2C_ADDRESS);
 	Wire.onReceive(Communication::SOnReceive);
@@ -49,7 +51,7 @@ void Communication::loop(){
 		}else if (cmd == OPEN_VALVE_CMD){
 			_armothy->openValve();
 		} else if(cmd == MACRO_CMD) {
-
+			_macroManager->setMacro((MacroManager::MacrosNumber)arg.i);
 		}else if (cmd == EMERGENCY_STOP_CMD){
 			_armothy->emergencyStop();
 		}
