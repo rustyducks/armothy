@@ -51,6 +51,7 @@ const unsigned int DEBUG_INTERFACE_PERIOD = 100;
 const unsigned int COMMUNICATION_PERIOD = 10;
 const unsigned int DC_MOTOR_PERIOD = 10;
 const unsigned int SUCCION_CUP_PERIOD = 50;
+const unsigned int MACRO_PERIOD = 100;
 
 
 #endif /* PARAMS_H_ */

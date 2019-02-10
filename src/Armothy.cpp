@@ -13,7 +13,7 @@ using namespace armothy;
 
 Armothy::Armothy() : _dynamixels(3, Serial3),
 		communicationMetro(COMMUNICATION_PERIOD), debugMetro(DEBUG_INTERFACE_PERIOD),
-		dcMotorMetro(DC_MOTOR_PERIOD), succionMetro(SUCCION_CUP_PERIOD), degubLedMetro(1000), _debugLedState(false){
+		dcMotorMetro(DC_MOTOR_PERIOD), succionMetro(SUCCION_CUP_PERIOD), degubLedMetro(1000), macroManagerMetro(MACRO_PERIOD), _debugLedState(false){
 
 }
 
@@ -22,9 +22,11 @@ void Armothy::setup(){
 	digitalWrite(DEBUG_LED, _debugLedState);
 	communication.setup(this);
 	_debugInterface.setup(this);
+	_macroManager.setup(this);
 	_zAxisMotor.setup();
 	_succionCup.setup();
 	_dynamixels.begin(1000000);
+	_macroManager.setup(this);
 }
 
 void Armothy::loop(){
@@ -44,6 +46,10 @@ void Armothy::loop(){
 	if (degubLedMetro.check()){
 		_debugLedState ^= 1;
 		digitalWrite(DEBUG_LED, _debugLedState);
+	}
+
+	if(macroManagerMetro.check()) {
+		_macroManager.loop();
 	}
 }
 
