@@ -14,38 +14,41 @@ using namespace armothy;
 
 Communication * Communication::_instance = nullptr;
 
-Communication::Communication(): _waitingCommand(START_CALIBRATION_CMD), _isCommandWaiting(false), _waitingRequest(CALIBRATION_ENDED_RQST), _armothy(nullptr){
+Communication::Communication(): _waitingRequest(CALIBRATION_ENDED_RQST), _armothy(nullptr){
+	_waitingCommands.readIndex = 0;
+	_waitingCommands.writeIndex = 0;
 }
 
 void Communication::setup(Armothy * arm){
 	_armothy = arm;
 	setInstance(this);
-	_cmdArg.f = 0.0;
 	Wire.begin(I2C_ADDRESS);
 	Wire.onReceive(Communication::SOnReceive);
 	Wire.onRequest(Communication::SOnRequest);
 }
 
 void Communication::loop(){
-	if (_isCommandWaiting){
-		_isCommandWaiting = false;
-		if (_waitingCommand == START_CALIBRATION_CMD){
+	while (_waitingCommands.readIndex != _waitingCommands.writeIndex){
+		eCommandByte cmd = _waitingCommands.commands[_waitingCommands.readIndex].cmd;
+		uFloat arg = _waitingCommands.commands[_waitingCommands.readIndex].arg;
+		_waitingCommands.readIndex = (_waitingCommands.readIndex + 1) % COMMAND_BUFFER_SIZE;
+		if (cmd == START_CALIBRATION_CMD){
 			_armothy->home();
-		}else if (_waitingCommand == DIRECT_AXIS_1_CMD){
-			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, _cmdArg.f);
-		}else if (_waitingCommand == DIRECT_AXIS_2_CMD){
-			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, _cmdArg.f);
-		}else if (_waitingCommand == DIRECT_AXIS_3_CMD){
-			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Y_AXIS, _cmdArg.f);
-		}else if (_waitingCommand == STOP_PUMP_CMD){
+		}else if (cmd == DIRECT_AXIS_1_CMD){
+			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, arg.f);
+		}else if (cmd == DIRECT_AXIS_2_CMD){
+			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, arg.f);
+		}else if (cmd == DIRECT_AXIS_3_CMD){
+			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Y_AXIS, arg.f);
+		}else if (cmd == STOP_PUMP_CMD){
 			_armothy->stopPump();
-		}else if (_waitingCommand == START_PUMP_CMD){
+		}else if (cmd == START_PUMP_CMD){
 			_armothy->startPump();
-		}else if (_waitingCommand == CLOSE_VALVE_CMD){
+		}else if (cmd == CLOSE_VALVE_CMD){
 			_armothy->closeValve();
-		}else if (_waitingCommand == OPEN_VALVE_CMD){
+		}else if (cmd == OPEN_VALVE_CMD){
 			_armothy->openValve();
-		}else if (_waitingCommand == EMERGENCY_STOP_CMD){
+		}else if (cmd == EMERGENCY_STOP_CMD){
 			_armothy->emergencyStop();
 		}
 	}
@@ -53,26 +56,31 @@ void Communication::loop(){
 
 void Communication::onReceive(int receivedSize){
 	uint8_t r = Wire.read();
-	if (r <= PRESSURE_RQST){
-		if (r <= EMERGENCY_STOP_CMD){
-			_isCommandWaiting = true;
-			_waitingCommand = (eCommandByte)r;
-			if (_waitingCommand == DIRECT_AXIS_1_CMD || _waitingCommand == DIRECT_AXIS_2_CMD ||
-					_waitingCommand == DIRECT_AXIS_3_CMD){
-				if (receivedSize == 5){
-					for (int i = 0; i < 4; i++){
-						_cmdArg.data[i] = Wire.read();
+	if ((_waitingCommands.writeIndex + 1) % COMMAND_BUFFER_SIZE == _waitingCommands.readIndex){
+		// Command buffer full...
+		while (Wire.available()) Wire.read();
+	}else{
+		if (r <= PRESSURE_RQST){
+			if (r <= EMERGENCY_STOP_CMD){
+				eCommandByte cmd = (eCommandByte)r;
+				_waitingCommands.commands[_waitingCommands.writeIndex].cmd = cmd;
+				if (cmd == DIRECT_AXIS_1_CMD || cmd == DIRECT_AXIS_2_CMD || cmd == DIRECT_AXIS_3_CMD){
+					if (receivedSize == 5){
+						for (int i = 0; i < 4; i++){
+							_waitingCommands.commands[_waitingCommands.writeIndex].arg.data[i] = Wire.read();
+						}
+					}else{
+						// This should not happen... (it means we received a direct command without arguments)
 					}
-				}else{
-					// This should not happen... (it means we received a direct command without arguments)
 				}
+				_waitingCommands.writeIndex = (_waitingCommands.writeIndex + 1) % COMMAND_BUFFER_SIZE;
+			}else{
+				_waitingRequest = (eCommandByte)r;
 			}
 		}else{
-			_waitingRequest = (eCommandByte)r;
+			// The command sent is not a valid command. Maybe a desynchronisation problem (so empty the buffer) ?
+			while (Wire.available()) Wire.read();
 		}
-
-	}else{
-		// The command sent is not a valid command. Maybe a desynchronisation problem (so empty the buffer) ?
 	}
 }
 

@@ -25,6 +25,7 @@ public:
 	static void SOnRequest();
 
 protected:
+	static constexpr uint8_t COMMAND_BUFFER_SIZE = 16;
 	enum eCommandByte{
 	START_CALIBRATION_CMD,
 	DIRECT_AXIS_1_CMD, // Expects a 4 bytes float with this command
@@ -50,12 +51,18 @@ protected:
 		float f;
 		uint8_t data[4];
 	};
+	struct sCommand{
+		eCommandByte cmd;
+		uFloat arg;
+	};
+	struct sCommandBuffer{
+		uint8_t readIndex;
+		uint8_t writeIndex;
+		sCommand commands[COMMAND_BUFFER_SIZE];
+	};
 
-	//Possible improvement : Make a command buffer instead of just one command possible at time
-	eCommandByte _waitingCommand;
-	bool _isCommandWaiting;
+	sCommandBuffer _waitingCommands;
 	eCommandByte _waitingRequest;
-	uFloat _cmdArg;
 
 	Armothy * _armothy;
 
