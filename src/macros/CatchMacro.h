@@ -12,8 +12,6 @@
 
 namespace armothy {
 
-class Armothy;
-
 class CatchMacro: public AbstractMacro {
 public:
 	CatchMacro(Armothy * arm);
