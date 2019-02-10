@@ -41,7 +41,7 @@ void MacroManager::loop() {
 	}
 }
 
-void MacroManager::setMacro(Macros macroNb) {
+void MacroManager::setMacro(MacrosNumber macroNb) {
 	if(macroState != FINISHED) {
 		currentMacro->leave();
 	}
