@@ -5,7 +5,8 @@
  *      Author: Fabien-B
  */
 
-#include <macros/MacroManager.h>
+#include <MacroManager.h>
+#include "CatchMacro.h"
 
 namespace armothy {
 
@@ -40,11 +41,20 @@ void MacroManager::loop() {
 	}
 }
 
-void MacroManager::setMacro(AbstractMacro* macro) {
+void MacroManager::setMacro(Macros macroNb) {
 	if(macroState != FINISHED) {
 		currentMacro->leave();
 	}
-	currentMacro = macro;
+
+	switch(macroNb) {
+	case CATCH_MACRO:
+		currentMacro = new CatchMacro(_armothy);
+		break;
+	default:
+		//Unknown macro !
+		break;
+	}
+
 	macroState = IDLE;
 }
 

@@ -18,6 +18,10 @@ class Armothy;
 class MacroManager {
 public:
 
+	enum Macros {
+		CATCH_MACRO = 0
+	};
+
 	enum MacroState {
 		IDLE,
 		RUNNING,
@@ -30,7 +34,7 @@ public:
 	void setup(Armothy * arm);
 	void loop();
 
-	void setMacro(AbstractMacro* macro);
+	void setMacro(Macros macroNb);
 
 private:
 	Armothy * _armothy;
