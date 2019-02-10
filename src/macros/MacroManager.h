@@ -18,7 +18,7 @@ class Armothy;
 class MacroManager {
 public:
 
-	enum Macros {
+	enum MacrosNumber {
 		CATCH_MACRO = 0
 	};
 
@@ -34,7 +34,7 @@ public:
 	void setup(Armothy * arm);
 	void loop();
 
-	void setMacro(Macros macroNb);
+	void setMacro(MacrosNumber macroNb);
 
 private:
 	Armothy * _armothy;
