@@ -20,13 +20,12 @@ Armothy::Armothy() : _dynamixels(3, Serial3),
 void Armothy::setup(){
 	pinMode(DEBUG_LED, OUTPUT);
 	digitalWrite(DEBUG_LED, _debugLedState);
-	communication.setup(this);
-	_debugInterface.setup(this);
 	_macroManager.setup(this);
+	communication.setup(this, &_macroManager);
+	_debugInterface.setup(this);
 	_zAxisMotor.setup();
 	_succionCup.setup();
 	_dynamixels.begin(1000000);
-	_macroManager.setup(this);
 }
 
 void Armothy::loop(){
