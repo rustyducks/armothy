@@ -51,9 +51,7 @@ void Communication::loop(){
 		}else if (cmd == OPEN_VALVE_CMD){
 			_armothy->openValve();
 		} else if(cmd == MACRO_CMD) {
-			Serial.print("Go macro num ");
-			Serial.println(args[0].ui);
-			_macroManager->setMacro((MacroManager::MacrosNumber)args[0].ui);
+			_macroManager->setMacro((MacroManager::MacrosNumber)args[0].ui, &args[1]);
 		}else if (cmd == EMERGENCY_STOP_CMD){
 			_armothy->emergencyStop();
 		}
@@ -94,11 +92,11 @@ void Communication::onReceive(int receivedSize){
 			for(int j=0; j<4; j++) {
 				_waitingCommands.commands[_waitingCommands.writeIndex].args[i].data[j] = Wire.read();
 			}
-			Serial.println(_waitingCommands.commands[_waitingCommands.writeIndex].args[i].ui, HEX);
+			//Serial.println(_waitingCommands.commands[_waitingCommands.writeIndex].args[i].ui, HEX);
 		}
 
 	} else {
-		Serial.println("Wrong byte number");
+		//Serial.println("Wrong byte number");
 		// This should not happen... (it means we received a macro command without argument)
 		while (Wire.available()) Wire.read();
 		return;

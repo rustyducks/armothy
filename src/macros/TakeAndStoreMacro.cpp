@@ -11,9 +11,9 @@
 
 namespace armothy {
 
-float TakeAndStoreMacro::stackHeight = 100;
-
-TakeAndStoreMacro::TakeAndStoreMacro(Armothy * arm) :AbstractMacro(arm) {
+TakeAndStoreMacro::TakeAndStoreMacro(Armothy * arm, float stack_height, int stack) :AbstractMacro(arm) {
+	stackHeight = stack_height;
+	_stack = (Stack) stack;
 	atomHeight = 0;
 	safeHeight = 0;
 	rotation_time = 0;
@@ -38,7 +38,7 @@ bool TakeAndStoreMacro::doIt() {
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, 155);
 		}
 		else {
-			safeHeight = clamp((float)0, TakeAndStoreMacro::stackHeight, z-10);
+			safeHeight = clamp((float)0, stackHeight, z-10);
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
 			state = RAISING;
 		}
@@ -46,19 +46,23 @@ bool TakeAndStoreMacro::doIt() {
 	case RAISING:
 		Serial.println("raising !");
 		if(abs(z-safeHeight) < 2) {
-			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, -320);
+			if(_stack == LEFT) {
+				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 320);
+			} else {
+				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, -320);
+			}
 			rotation_time = millis();
 			state = ROTATION;
 		}
 		break;
 	case ROTATION:
 		if(millis() - rotation_time > 500) {	//TODO: use _armothy->get_dof(Armothy::REVOLUTE_Z_AXIS)
-			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, TakeAndStoreMacro::stackHeight);
+			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, stackHeight);
 			state = STORE_DESCENT;
 		}
 		break;
 	case STORE_DESCENT:
-		if(abs(z-TakeAndStoreMacro::stackHeight) < 2) {
+		if(abs(z-stackHeight) < 2) {
 			_armothy->openValve();
 			_armothy->stopPump();
 			state = STORE;

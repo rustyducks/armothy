@@ -25,6 +25,13 @@ public:
 	static void SOnReceive(int receivedSize);
 	static void SOnRequest();
 
+	union uArg{
+		uint32_t ui;
+		int32_t i;
+		float f;
+		uint8_t data[4];
+	};
+
 protected:
 	static constexpr uint8_t COMMAND_BUFFER_SIZE = 16;
 	static constexpr uint8_t MAX_ARGS_NUMBER = 4;
@@ -51,12 +58,7 @@ protected:
 	PRESSURE_RQST // 4 bytes (float) /!\ Should be the last one in this enum !
 	};
 
-	union uArg{
-		uint32_t ui;
-		int32_t i;
-		float f;
-		uint8_t data[4];
-	};
+
 	struct sCommand{
 		eCommandByte cmd;
 		uArg args[MAX_ARGS_NUMBER];

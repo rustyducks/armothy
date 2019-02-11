@@ -13,10 +13,9 @@
 namespace armothy {
 
 class TakeAndStoreMacro: public AbstractMacro {
-	static float stackHeight;		//TODO remove static, and take it as argument
 public:
 
-	TakeAndStoreMacro(Armothy * arm);
+	TakeAndStoreMacro(Armothy * arm, float stack_height, int stack);
 	virtual ~TakeAndStoreMacro();
 
 	void init();
@@ -28,6 +27,11 @@ public:
 
 private:
 
+	enum Stack {
+		LEFT,
+		RIGHT
+	};
+
 	enum State {
 		INITIAL_DESCENT,
 		RAISING,
@@ -36,6 +40,8 @@ private:
 		STORE
 	};
 
+	Stack _stack;
+	float stackHeight;
 	float atomHeight;
 	float safeHeight;
 	unsigned long rotation_time;
