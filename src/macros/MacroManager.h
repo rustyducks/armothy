@@ -34,6 +34,7 @@ public:
 
 	void setup(Armothy * arm);
 	void loop();
+	void stop();
 
 	void setMacro(MacrosNumber macroNb);
 

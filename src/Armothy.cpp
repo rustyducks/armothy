@@ -119,6 +119,7 @@ void Armothy::emergencyStop(){
 	_dynamixels.move(Y_AXIS_DYNAMIXEL_ID, _dynamixels.readPosition(Y_AXIS_DYNAMIXEL_ID));
 	_succionCup.stopPump();
 	_succionCup.openValve();
+	_macroManager.stop();
 }
 
 bool Armothy::isMoving(){
