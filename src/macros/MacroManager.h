@@ -9,7 +9,7 @@
 #define SRC_MACROS_MACROMANAGER_H_
 
 #include "AbstractMacro.h"
-
+#include "Communication.h"
 
 namespace armothy {
 
@@ -36,7 +36,7 @@ public:
 	void loop();
 	void stop();
 
-	void setMacro(MacrosNumber macroNb);
+	void setMacro(MacrosNumber macroNb, Communication::uArg *args);
 
 private:
 	Armothy * _armothy;

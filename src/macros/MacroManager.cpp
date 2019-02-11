@@ -9,6 +9,7 @@
 #include "CatchMacro.h"
 #include "TakeAndStoreMacro.h"
 
+
 namespace armothy {
 
 MacroManager::MacroManager() {
@@ -42,17 +43,22 @@ void MacroManager::loop() {
 	}
 }
 
-void MacroManager::setMacro(MacrosNumber macroNb) {
+void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 	if(macroState != FINISHED) {
 		currentMacro->leave();
 	}
+
+	float stackHeight;
+	int stack;
 
 	switch(macroNb) {
 	case CATCH_MACRO:
 		currentMacro = new CatchMacro(_armothy);
 		break;
 	case TAKE_AND_STORE_MACRO:
-		currentMacro = new TakeAndStoreMacro(_armothy);
+		stackHeight = args[0].f;
+		stack = args[1].ui;
+		currentMacro = new TakeAndStoreMacro(_armothy, stackHeight, stack);
 		break;
 	default:
 		//Unknown macro !
