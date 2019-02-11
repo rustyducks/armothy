@@ -7,6 +7,7 @@
 
 #include <MacroManager.h>
 #include "CatchMacro.h"
+#include "TakeAndStoreMacro.h"
 
 namespace armothy {
 
@@ -49,6 +50,9 @@ void MacroManager::setMacro(MacrosNumber macroNb) {
 	switch(macroNb) {
 	case CATCH_MACRO:
 		currentMacro = new CatchMacro(_armothy);
+		break;
+	case TAKE_AND_STORE_MACRO:
+		currentMacro = new TakeAndStoreMacro(_armothy);
 		break;
 	default:
 		//Unknown macro !

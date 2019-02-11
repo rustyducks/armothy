@@ -78,7 +78,7 @@ void Communication::onReceive(int receivedSize){
 					}
 				}
 				else if(cmd == MACRO_CMD) {
-					if (receivedSize == 1){
+					if (receivedSize == 2){
 						_waitingCommands.commands[_waitingCommands.writeIndex].arg.data[0] = Wire.read();
 					} else {
 						// This should not happen... (it means we received a macro command without argument)

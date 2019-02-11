@@ -19,7 +19,8 @@ class MacroManager {
 public:
 
 	enum MacrosNumber {
-		CATCH_MACRO = 0
+		CATCH_MACRO,
+		TAKE_AND_STORE_MACRO
 	};
 
 	enum MacroState {
