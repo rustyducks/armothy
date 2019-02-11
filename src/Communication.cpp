@@ -32,16 +32,16 @@ void Communication::setup(Armothy * arm, MacroManager* macroManager){
 void Communication::loop(){
 	while (_waitingCommands.readIndex != _waitingCommands.writeIndex){
 		eCommandByte cmd = _waitingCommands.commands[_waitingCommands.readIndex].cmd;
-		uArg arg = _waitingCommands.commands[_waitingCommands.readIndex].arg;
+		uArg* args = _waitingCommands.commands[_waitingCommands.readIndex].args;
 		_waitingCommands.readIndex = (_waitingCommands.readIndex + 1) % COMMAND_BUFFER_SIZE;
 		if (cmd == START_CALIBRATION_CMD){
 			_armothy->home();
 		}else if (cmd == DIRECT_AXIS_1_CMD){
-			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, arg.f);
+			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, args[0].f);
 		}else if (cmd == DIRECT_AXIS_2_CMD){
-			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, arg.f);
+			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, args[0].f);
 		}else if (cmd == DIRECT_AXIS_3_CMD){
-			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Y_AXIS, arg.f);
+			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Y_AXIS, args[0].f);
 		}else if (cmd == STOP_PUMP_CMD){
 			_armothy->stopPump();
 		}else if (cmd == START_PUMP_CMD){
@@ -51,7 +51,9 @@ void Communication::loop(){
 		}else if (cmd == OPEN_VALVE_CMD){
 			_armothy->openValve();
 		} else if(cmd == MACRO_CMD) {
-			_macroManager->setMacro((MacroManager::MacrosNumber)arg.i);
+			Serial.print("Go macro num ");
+			Serial.println(args[0].ui);
+			_macroManager->setMacro((MacroManager::MacrosNumber)args[0].ui);
 		}else if (cmd == EMERGENCY_STOP_CMD){
 			_armothy->emergencyStop();
 		}
@@ -59,40 +61,51 @@ void Communication::loop(){
 }
 
 void Communication::onReceive(int receivedSize){
-	uint8_t r = Wire.read();
 	if ((_waitingCommands.writeIndex + 1) % COMMAND_BUFFER_SIZE == _waitingCommands.readIndex){
 		// Command buffer full...
 		while (Wire.available()) Wire.read();
-	}else{
-		if (r <= PRESSURE_RQST){
-			if (r <= EMERGENCY_STOP_CMD){
-				eCommandByte cmd = (eCommandByte)r;
-				_waitingCommands.commands[_waitingCommands.writeIndex].cmd = cmd;
-				if (cmd == DIRECT_AXIS_1_CMD || cmd == DIRECT_AXIS_2_CMD || cmd == DIRECT_AXIS_3_CMD){
-					if (receivedSize == 5){
-						for (int i = 0; i < 4; i++){
-							_waitingCommands.commands[_waitingCommands.writeIndex].arg.data[i] = Wire.read();
-						}
-					}else{
-						// This should not happen... (it means we received a direct command without arguments)
-					}
-				}
-				else if(cmd == MACRO_CMD) {
-					if (receivedSize == 2){
-						_waitingCommands.commands[_waitingCommands.writeIndex].arg.data[0] = Wire.read();
-					} else {
-						// This should not happen... (it means we received a macro command without argument)
-					}
-				}
-				_waitingCommands.writeIndex = (_waitingCommands.writeIndex + 1) % COMMAND_BUFFER_SIZE;
-			}else{
-				_waitingRequest = (eCommandByte)r;
-			}
-		}else{
-			// The command sent is not a valid command. Maybe a desynchronisation problem (so empty the buffer) ?
+		return;
+	}
+
+	uint8_t r = Wire.read();
+
+	eCommandByte cmd = (eCommandByte)r;
+
+	if (cmd > PRESSURE_RQST){
+		// The command sent is not a valid command. Maybe a desynchronisation problem (so empty the buffer) ?
+		while (Wire.available()) Wire.read();
+		return;
+	}
+
+	if(cmd > EMERGENCY_STOP_CMD) {
+		if(receivedSize == 1) {
+			_waitingRequest = cmd;
+		} else {
+			//too many bytes. Is there a problem ?
 			while (Wire.available()) Wire.read();
 		}
+		return;
 	}
+
+	_waitingCommands.commands[_waitingCommands.writeIndex].cmd = cmd;
+	uint8_t nbArgs = Wire.read();										//number of arguments to be read
+	if (receivedSize == 2+nbArgs*4 && nbArgs <= MAX_ARGS_NUMBER){		//check the number of bytes received
+		for(int i=0; i<nbArgs; i++) {
+			for(int j=0; j<4; j++) {
+				_waitingCommands.commands[_waitingCommands.writeIndex].args[i].data[j] = Wire.read();
+			}
+			Serial.println(_waitingCommands.commands[_waitingCommands.writeIndex].args[i].ui, HEX);
+		}
+
+	} else {
+		Serial.println("Wrong byte number");
+		// This should not happen... (it means we received a macro command without argument)
+		while (Wire.available()) Wire.read();
+		return;
+	}
+
+	_waitingCommands.writeIndex = (_waitingCommands.writeIndex + 1) % COMMAND_BUFFER_SIZE;
+
 }
 
 void Communication::onRequest(){
