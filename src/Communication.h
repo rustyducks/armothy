@@ -27,6 +27,7 @@ public:
 
 protected:
 	static constexpr uint8_t COMMAND_BUFFER_SIZE = 16;
+	static constexpr uint8_t MAX_ARGS_NUMBER = 4;
 	enum eCommandByte{
 	START_CALIBRATION_CMD,
 	DIRECT_AXIS_1_CMD, // Expects a 4 bytes float with this command
@@ -51,13 +52,14 @@ protected:
 	};
 
 	union uArg{
-		uint8_t i;
+		uint32_t ui;
+		int32_t i;
 		float f;
 		uint8_t data[4];
 	};
 	struct sCommand{
 		eCommandByte cmd;
-		uArg arg;
+		uArg args[MAX_ARGS_NUMBER];
 	};
 	struct sCommandBuffer{
 		uint8_t readIndex;
