@@ -63,3 +63,10 @@ void MacroManager::setMacro(MacrosNumber macroNb) {
 }
 
 } /* namespace armothy */
+
+void armothy::MacroManager::stop() {
+	if(currentMacro != nullptr && macroState != FINISHED) {
+		currentMacro->leave();
+		macroState = FINISHED;
+	}
+}
