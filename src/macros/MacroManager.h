@@ -29,6 +29,8 @@ public:
 		FINISHED
 	};
 
+
+
 	MacroManager();
 	virtual ~MacroManager();
 
@@ -38,10 +40,20 @@ public:
 
 	void setMacro(MacrosNumber macroNb, Communication::uArg *args);
 
+	uint8_t getStatusByte() {
+		return _statusByte;
+	}
+
+	void setStatusByte(uint8_t statusByte) {
+		_statusByte = statusByte;
+	}
+
 private:
 	Armothy * _armothy;
 	AbstractMacro* currentMacro;
 	MacroState macroState;
+
+	uint8_t _statusByte;
 };
 
 } /* namespace armothy */

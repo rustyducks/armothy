@@ -18,7 +18,7 @@ public:
 	void isr_limit_switch();
 
 	float get_position();
-	void go_to(double position);
+	void go_to(float position);
 	void home();
 
 	void setup();
@@ -35,6 +35,7 @@ private:
 	static constexpr float KD = 0;
 	static constexpr int MIN_INTEGRAL = -255;
 	static constexpr int MAX_INTEGRAL = 255;
+	static constexpr float Z_MAX = 155;
 	bool _isHoming;
 	volatile long _inc;
 	int _goal_inc;

@@ -29,7 +29,7 @@ void TakeAndStoreMacro::init() {
 	_armothy->startPump();
 }
 
-bool TakeAndStoreMacro::doIt() {
+int TakeAndStoreMacro::doIt() {
 	float z = _armothy->getDoF(Armothy::PRISMATIC_Z_AXIS);
 
 	switch(state) {
@@ -71,11 +71,17 @@ bool TakeAndStoreMacro::doIt() {
 	case STORE:
 		if(_armothy->getPressure() > 30) { //atom released
 			_armothy->closeValve();
-			return true;
+			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 0);
+			state = ROTATION_BACK;
+		}
+		break;
+	case ROTATION_BACK:
+		if(millis() - rotation_time > 500) {	//TODO: use _armothy->get_dof(Armothy::REVOLUTE_Z_AXIS)
+			return MACRO_STATUS_FINISHED;
 		}
 	}
 
-	return false;
+	return MACRO_STATUS_RUNNING;
 }
 
 void TakeAndStoreMacro::leave() {

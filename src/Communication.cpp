@@ -107,21 +107,39 @@ void Communication::onReceive(int receivedSize){
 }
 
 void Communication::onRequest(){
-	if (_waitingRequest == CALIBRATION_ENDED_RQST){
-		Wire.write(_armothy->isMoving());
-	}else if (_waitingRequest == AXIS_1_POSITION_RQST){
-		sendFloat(_armothy->getDoF(Armothy::PRISMATIC_Z_AXIS));
-	}else if (_waitingRequest == AXIS_2_POSITION_RQST){
-		sendFloat(_armothy->getDoF(Armothy::REVOLUTE_Z_AXIS));
-	}else if(_waitingRequest == AXIS_3_POSITION_RQST){
-		sendFloat(_armothy->getDoF(Armothy::REVOLUTE_Y_AXIS));
-	}else if (_waitingRequest == PUMP_STATE_RQST){
-		Wire.write(_armothy->getPumpState());
-	}else if (_waitingRequest == VALVE_STATE_RQST){
-		Wire.write(_armothy->getValveState());
-	}else if (_waitingRequest == PRESSURE_RQST){
-		sendFloat(_armothy->getPressure());
+	Serial.println(_waitingRequest);
+	switch (_waitingRequest) {
+		case CALIBRATION_ENDED_RQST:
+			Wire.write(_armothy->isMoving());
+			break;
+		case AXIS_1_POSITION_RQST:
+			sendFloat(_armothy->getDoF(Armothy::PRISMATIC_Z_AXIS));
+			break;
+		case AXIS_2_POSITION_RQST:
+			sendFloat(_armothy->getDoF(Armothy::REVOLUTE_Z_AXIS));
+			break;
+		case AXIS_3_POSITION_RQST:
+			sendFloat(_armothy->getDoF(Armothy::REVOLUTE_Y_AXIS));
+			break;
+		case PUMP_STATE_RQST:
+			Wire.write(_armothy->getPumpState());
+			break;
+		case VALVE_STATE_RQST:
+			Wire.write(_armothy->getValveState());
+			break;
+		case PRESSURE_RQST:
+			sendFloat(_armothy->getPressure());
+			break;
+		case ERROR_BYTE_RQST:
+			Wire.write(_armothy-> getErrorByte());
+			break;
+		case MACRO_STATE_RSQT:
+			Wire.write(_macroManager->getStatusByte());
+			break;
+		default:
+			break;
 	}
+
 }
 
 void Communication::sendFloat(float toSend){

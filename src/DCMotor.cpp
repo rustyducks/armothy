@@ -17,6 +17,7 @@ constexpr float DCMotor::KI;
 constexpr float DCMotor::KD;
 constexpr int DCMotor::MIN_INTEGRAL;
 constexpr int DCMotor::MAX_INTEGRAL;
+constexpr float DCMotor::Z_MAX;
 
 DCMotor * dcmotor = nullptr;
 
@@ -42,8 +43,8 @@ void DCMotor::stop(){
 	_integralError = 0;
 }
 
-void DCMotor::go_to(double position){
-	_goal_inc = position * INC_PER_MM;
+void DCMotor::go_to(float position){
+	_goal_inc = clamp((float)0, position * INC_PER_MM, Z_MAX * INC_PER_MM);
 }
 
 float DCMotor::get_position(){
@@ -70,7 +71,10 @@ void DCMotor::setup(){
 }
 
 void DCMotor::loop(){
-	int error = _goal_inc - _inc;
+	cli();
+	int inc = _inc;
+	sei();
+	int error = _goal_inc - inc;
 	int derivError = error - _prevError;
 	_integralError = clamp(MIN_INTEGRAL, _integralError + error, MAX_INTEGRAL);
 	_prevError = error;

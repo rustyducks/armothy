@@ -55,6 +55,8 @@ protected:
 	AXIS_3_POSITION_RQST, // 4 bytes (float)
 	PUMP_STATE_RQST, // 1 byte (0: stopped; 1: started)
 	VALVE_STATE_RQST, // 1 byte (0: closed; 1: opened)
+	ERROR_BYTE_RQST,	//1 byte
+	MACRO_STATE_RSQT,	//1 byte
 	PRESSURE_RQST // 4 bytes (float) /!\ Should be the last one in this enum !
 	};
 

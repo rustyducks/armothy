@@ -20,7 +20,7 @@ public:
 	void init();
 
 	// return: True if ended
-	bool  doIt();
+	int  doIt();
 
 	void leave();
 };
