@@ -13,6 +13,13 @@ class Armothy;
 
 class AbstractMacro {
 public:
+
+	enum MacroStatus {
+		MACRO_STATUS_FINISHED = 1,
+		MACRO_STATUS_RUNNING = 2,
+		MACRO_STATUS_ERROR = 4,
+	};
+
 	AbstractMacro(Armothy * arm);
 	virtual ~AbstractMacro();
 
@@ -20,8 +27,8 @@ public:
 
 	virtual void init() = 0;
 
-	// return: True if ended
-	virtual bool  doIt() = 0;
+	// return: FINISHED if ended, ERROR or RUNNING
+	virtual int  doIt() = 0;
 
 	virtual void leave() = 0;
 

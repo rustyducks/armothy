@@ -13,7 +13,7 @@ using namespace armothy;
 
 Armothy::Armothy() : _dynamixels(3, Serial3),
 		communicationMetro(COMMUNICATION_PERIOD), debugMetro(DEBUG_INTERFACE_PERIOD),
-		dcMotorMetro(DC_MOTOR_PERIOD), succionMetro(SUCCION_CUP_PERIOD), degubLedMetro(1000), macroManagerMetro(MACRO_PERIOD), _debugLedState(false){
+		dcMotorMetro(DC_MOTOR_PERIOD), succionMetro(SUCCION_CUP_PERIOD), degubLedMetro(1000), macroManagerMetro(MACRO_PERIOD), _errorByte(0), _debugLedState(false){
 
 }
 

@@ -20,8 +20,8 @@ public:
 
 	void init();
 
-	// return: True if ended
-	bool  doIt();
+
+	int  doIt();
 
 	void leave();
 
@@ -37,7 +37,8 @@ private:
 		RAISING,
 		ROTATION,
 		STORE_DESCENT,
-		STORE
+		STORE,
+		ROTATION_BACK
 	};
 
 	Stack _stack;

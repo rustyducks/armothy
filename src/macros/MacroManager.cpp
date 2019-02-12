@@ -8,6 +8,7 @@
 #include <MacroManager.h>
 #include "CatchMacro.h"
 #include "TakeAndStoreMacro.h"
+#include "Armothy.h"
 
 
 namespace armothy {
@@ -16,6 +17,7 @@ MacroManager::MacroManager() {
 	_armothy = nullptr;
 	currentMacro = nullptr;
 	macroState = FINISHED;
+	_statusByte = 0;
 }
 
 MacroManager::~MacroManager() {
@@ -33,7 +35,8 @@ void MacroManager::loop() {
 		macroState = RUNNING;
 		break;
 	case RUNNING:
-		if(currentMacro->doIt()) {
+		_statusByte = (uint8_t)currentMacro->doIt();
+		if(_statusByte & AbstractMacro::MACRO_STATUS_FINISHED) {
 			currentMacro->leave();
 			macroState = FINISHED;
 		}
@@ -47,6 +50,8 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 	if(macroState != FINISHED) {
 		currentMacro->leave();
 	}
+
+	_statusByte = 0;		//TODO replace by an explicit reset of the status byte ?
 
 	float stackHeight;
 	int stack;

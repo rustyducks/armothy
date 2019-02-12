@@ -34,6 +34,13 @@ public:
 		REVOLUTE_Y_AXIS = 2
 	};
 
+	enum Error {
+		Z_MAX_REACHED = 1,
+		Z_MIN_REACHED = 2,
+		Z_MOTOR_OVERCURRENT = 4,
+
+	};
+
 	Armothy();
 	virtual ~Armothy(){};
 
@@ -54,6 +61,14 @@ public:
 
 	float getPressure();
 
+	uint8_t getErrorByte() {
+		return _errorByte;
+	}
+
+	void setErrorByte(uint8_t errorByte) {
+		_errorByte = errorByte;
+	}
+
 	void setup();
 	void loop();
 
@@ -68,6 +83,8 @@ protected:
 	MacroManager _macroManager;
 
 	Metro communicationMetro, debugMetro, dcMotorMetro, succionMetro, degubLedMetro, macroManagerMetro;
+
+	uint8_t _errorByte;
 
 	bool _debugLedState;
 };

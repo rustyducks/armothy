@@ -24,11 +24,11 @@ void CatchMacro::init() {
 	_armothy->startPump();
 }
 
-bool CatchMacro::doIt() {
+int CatchMacro::doIt() {
 	if(_armothy->getPressure() < 30) {
-		return true;
+		return MACRO_STATUS_FINISHED;
 	}
-	return false;
+	return MACRO_STATUS_RUNNING;
 }
 
 void CatchMacro::leave() {
