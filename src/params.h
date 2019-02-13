@@ -47,11 +47,11 @@ const unsigned int DYNAMIXEL_TO_0_2 = 512;
 const float ANALOG_TO_BAR = 0.5;
 
 //####### Loop periods #######
-const unsigned int DEBUG_INTERFACE_PERIOD = 100;
-const unsigned int COMMUNICATION_PERIOD = 10;
-const unsigned int DC_MOTOR_PERIOD = 10;
-const unsigned int SUCCION_CUP_PERIOD = 50;
-const unsigned int MACRO_PERIOD = 100;
+const float DEBUG_INTERFACE_PERIOD = 0.100;
+const float COMMUNICATION_PERIOD = 0.010;
+const float DC_MOTOR_PERIOD = 0.050;
+const float SUCCION_CUP_PERIOD = 0.050;
+const float MACRO_PERIOD = 0.050;
 
 
 #endif /* PARAMS_H_ */
