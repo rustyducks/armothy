@@ -8,6 +8,7 @@
 #include "Armothy.h"
 #include "params.h"
 #include "Metro.h"
+#include "MacroManager.h"
 
 using namespace armothy;
 
@@ -53,7 +54,7 @@ void Armothy::loop(){
 }
 
 void Armothy::home(){
-	_zAxisMotor.home();
+	_macroManager.setMacro(MacroManager::HOME_MACRO, nullptr);
 	_dynamixels.move(Z_AXIS_DYNAMIXEL_ID, DYNAMIXEL_TO_0_1);
 	_dynamixels.move(Y_AXIS_DYNAMIXEL_ID, DYNAMIXEL_TO_0_2);
 }

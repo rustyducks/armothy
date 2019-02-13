@@ -20,7 +20,8 @@ public:
 
 	enum MacrosNumber {
 		CATCH_MACRO,
-		TAKE_AND_STORE_MACRO
+		TAKE_AND_STORE_MACRO,
+		HOME_MACRO
 	};
 
 	enum MacroState {

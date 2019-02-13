@@ -72,7 +72,9 @@ public:
 	void setup();
 	void loop();
 
-
+	DCMotor& getZAxisMotor() {
+		return _zAxisMotor;
+	}
 
 protected:
 	Communication communication;

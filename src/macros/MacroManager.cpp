@@ -9,6 +9,7 @@
 #include "CatchMacro.h"
 #include "TakeAndStoreMacro.h"
 #include "Armothy.h"
+#include "HomeMacro.h"
 
 
 namespace armothy {
@@ -64,6 +65,9 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 		stackHeight = args[0].f;
 		stack = args[1].ui;
 		currentMacro = new TakeAndStoreMacro(_armothy, stackHeight, stack);
+		break;
+	case HOME_MACRO:
+		currentMacro = new HomeMacro(_armothy);
 		break;
 	default:
 		//Unknown macro !

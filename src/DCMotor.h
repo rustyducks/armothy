@@ -30,9 +30,7 @@ public:
 		return _speedControlActivated;
 	}
 
-	void setSpeedControlActivated(bool positionControlActivated) {
-		_speedControlActivated = positionControlActivated;
-	}
+	void setSpeedControlActivated(bool speedControlActivated);
 
 	void setSpeedSetPoint(float speedSetPoint) {
 		_speedSetPoint = speedSetPoint;
@@ -59,7 +57,7 @@ private:
 	static constexpr float KI_SPEED = 3;
 	static constexpr float MIN_INTEGRAL = -255;
 	static constexpr float MAX_INTEGRAL = 255;
-	static constexpr float Z_MAX = 155;
+	static constexpr float Z_MAX = 130;
 
 
 	void speedControl();

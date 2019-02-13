@@ -100,6 +100,15 @@ void DCMotor::speedControl() {
 	_prev_inc = inc;
 }
 
+void DCMotor::setSpeedControlActivated(bool speedControlActivated) {
+	if(speedControlActivated) {
+		_intSpeedError = 0;
+		_speedSetPoint = 0;
+		_prev_inc = _inc;
+	}
+	_speedControlActivated = speedControlActivated;
+}
+
 void DCMotor::positionControl() {
 	cli();
 	int inc = _inc;
@@ -111,12 +120,6 @@ void DCMotor::positionControl() {
 
 	float command = KP * error + KI * _integralError + KP * derivError;
 	int boundedCommand = clamp(-255, (int)command, 255);
-
-	Serial.print(error);
-	Serial.print("\t");
-	Serial.print(command);
-	Serial.print("\t");
-	Serial.println(inc);
 
 	digitalWrite(VERTICAL_MOTOR_DIR_A, sig(boundedCommand));
 	digitalWrite(VERTICAL_MOTOR_DIR_B, !sig(boundedCommand));
