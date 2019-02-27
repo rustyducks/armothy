@@ -84,7 +84,7 @@ protected:
 	SuccionCup _succionCup;
 	MacroManager _macroManager;
 
-	Metro communicationMetro, debugMetro, dcMotorMetro, succionMetro, degubLedMetro, macroManagerMetro;
+	Metro communicationMetro, debugMetro, dcMotorMetro, succionMetro, degubLedMetro, macroManagerMetro, currentCheckMetro;
 
 	uint8_t _errorByte;
 

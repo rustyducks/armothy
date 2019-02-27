@@ -14,7 +14,9 @@ using namespace armothy;
 
 Armothy::Armothy() : _dynamixels(3, Serial3),
 		communicationMetro((unsigned int)COMMUNICATION_PERIOD*1000), debugMetro((unsigned int)DEBUG_INTERFACE_PERIOD*1000),
-		dcMotorMetro((unsigned int)(DC_MOTOR_PERIOD*1000)), succionMetro((unsigned int)SUCCION_CUP_PERIOD*1000), degubLedMetro(1000), macroManagerMetro((unsigned int)MACRO_PERIOD*1000), _errorByte(0), _debugLedState(false){
+		dcMotorMetro((unsigned int)(DC_MOTOR_PERIOD*1000)), succionMetro((unsigned int)SUCCION_CUP_PERIOD*1000),
+		degubLedMetro(1000), macroManagerMetro((unsigned int)MACRO_PERIOD*1000), currentCheckMetro((unsigned int)CURRENT_CHECK_PERIOD*1000),
+		_errorByte(0), _debugLedState(false){
 
 }
 
@@ -50,6 +52,10 @@ void Armothy::loop(){
 
 	if(macroManagerMetro.check()) {
 		_macroManager.loop();
+	}
+
+	if(currentCheckMetro.check()) {
+		_zAxisMotor.checkCurrent();
 	}
 }
 

@@ -25,6 +25,7 @@ public:
 	void stop();
 
 	bool isMoving();
+	void checkCurrent();
 
 	bool isSpeedControlActivated() const {
 		return _speedControlActivated;
@@ -48,15 +49,17 @@ public:
 		_inc = 0;
 	}
 
+	void setMotorCommand(int command);
+
 private:
 	static constexpr float INC_PER_MM = 55.5;
-	static constexpr float KP = 60;
-	static constexpr float KI = 1;
+	static constexpr float KP = 15;
+	static constexpr float KI = 0.4;
 	static constexpr float KD = 0;
-	static constexpr float KP_SPEED = 10;
-	static constexpr float KI_SPEED = 3;
-	static constexpr float MIN_INTEGRAL = -255;
-	static constexpr float MAX_INTEGRAL = 255;
+	static constexpr float KP_SPEED = 2;
+	static constexpr float KI_SPEED = 1;
+	static constexpr float MIN_INTEGRAL = -127;
+	static constexpr float MAX_INTEGRAL = 127;
 	static constexpr float Z_MAX = 130;
 
 
@@ -76,6 +79,8 @@ private:
 	bool _speedControlActivated;
 	bool _limitReached;
 	float _intSpeedError;
+
+	int _current;
 };
 
 void ISR_INC1();

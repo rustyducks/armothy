@@ -9,7 +9,7 @@
 #include "params.h"
 #include "utils.h"
 
-#define sig(x) ((x) > 0) ? HIGH : LOW
+//#define sig(x) ((x) > 0) ? HIGH : LOW
 
 constexpr float DCMotor::INC_PER_MM;
 constexpr float DCMotor::KP;
@@ -25,7 +25,8 @@ DCMotor * dcmotor = nullptr;
 
 DCMotor::DCMotor() : _inc(0), _prev_inc(0),
 		_goal(0), _speed(0), _prevError(0), _integralError(0),
-		_speedSetPoint(0), _speedControlActivated(true), _limitReached(false), _intSpeedError(0){
+		_speedSetPoint(0), _speedControlActivated(true), _limitReached(false), _intSpeedError(0),
+		_current(0){
 }
 
 void DCMotor::stop(){
@@ -34,9 +35,8 @@ void DCMotor::stop(){
 	_prevError = 0;
 	_integralError = 0;
 	_intSpeedError = 0;
-	digitalWrite(VERTICAL_MOTOR_DIR_A, 0);
-	digitalWrite(VERTICAL_MOTOR_DIR_B, 0);
-	analogWrite(VERTICAL_MOTOR_PWM, 0);
+	digitalWrite(VERTICAL_MOTOR_A, 0);
+	digitalWrite(VERTICAL_MOTOR_B, 0);
 }
 
 void DCMotor::go_to(float position){
@@ -58,13 +58,14 @@ bool DCMotor::isMoving(){
 
 void DCMotor::setup(){
 	dcmotor = this;
-	pinMode(VERTICAL_MOTOR_PWM, OUTPUT);
-	pinMode(VERTICAL_MOTOR_DIR_A, OUTPUT);
-	pinMode(VERTICAL_MOTOR_DIR_B, OUTPUT);
+	pinMode(VERTICAL_MOTOR_EF, INPUT_PULLUP);
+	pinMode(VERTICAL_MOTOR_A, OUTPUT);
+	pinMode(VERTICAL_MOTOR_B, OUTPUT);
+	setMotorCommand(0);
 	pinMode(VERTICAL_ENCODER_A, INPUT);
 	pinMode(VERTICAL_ENCODER_B, INPUT);
 	pinMode(VERTICAL_LIMIT_SWITCH, INPUT_PULLUP);
-	analogWriteFrequency(VERTICAL_MOTOR_PWM, 549.3164);
+	pinMode(MOT_Z_CURRENT_SENSOR, INPUT);
 	attachInterrupt(VERTICAL_ENCODER_A, ISR_INC1, RISING);
 	attachInterrupt(VERTICAL_ENCODER_B, ISR_INC2, RISING);
 	attachInterrupt(VERTICAL_LIMIT_SWITCH, ISR_LIMIT_SWITCH, CHANGE);
@@ -87,15 +88,12 @@ void DCMotor::speedControl() {
 	float speedError = _speed - _speedSetPoint;
 	_intSpeedError = clamp((float)-255, _intSpeedError + speedError, (float)255);
 	float command = speedError * KP_SPEED + _intSpeedError * KI_SPEED;
-	int boundedCommand = clamp(-255, (int)command, 255);
 
 	if(_speedSetPoint == 0) {
-		boundedCommand = 0;
+		command = 0;
 		_intSpeedError = 0;
 	}
-	digitalWrite(VERTICAL_MOTOR_DIR_A, !sig(boundedCommand));
-	digitalWrite(VERTICAL_MOTOR_DIR_B, sig(boundedCommand));
-	analogWrite(VERTICAL_MOTOR_PWM, abs(boundedCommand));
+	setMotorCommand(-command);
 
 	_prev_inc = inc;
 }
@@ -119,11 +117,8 @@ void DCMotor::positionControl() {
 	_prevError = error;
 
 	float command = KP * error + KI * _integralError + KP * derivError;
-	int boundedCommand = clamp(-255, (int)command, 255);
 
-	digitalWrite(VERTICAL_MOTOR_DIR_A, sig(boundedCommand));
-	digitalWrite(VERTICAL_MOTOR_DIR_B, !sig(boundedCommand));
-	analogWrite(VERTICAL_MOTOR_PWM, abs(boundedCommand));
+	setMotorCommand(command);
 }
 
 void DCMotor::isr_inc1(){
@@ -159,3 +154,23 @@ void ISR_LIMIT_SWITCH(){
 
 }
 
+void DCMotor::setMotorCommand(int command) {
+	if(abs(_current) > MAX_CURRENT_VALUE) {
+		command = 0;
+		Serial.println("OverCurrent!!!");
+	}
+	command = clamp(-127, command, 127);
+	if(abs(command) < 20) {
+		digitalWrite(VERTICAL_MOTOR_A, HIGH);
+		digitalWrite(VERTICAL_MOTOR_B, LOW);
+	}
+	else {
+		digitalWrite(VERTICAL_MOTOR_A, LOW);
+		analogWrite(VERTICAL_MOTOR_B, command+127);
+	}
+}
+
+void DCMotor::checkCurrent() {
+	int value = analogRead(MOT_Z_CURRENT_SENSOR) - CURRENT_ANALOG_OFFSET;
+	_current = 0.8*_current + 0.2 * value;	//low pass filter
+}
