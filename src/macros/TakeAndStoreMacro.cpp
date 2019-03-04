@@ -47,16 +47,16 @@ int TakeAndStoreMacro::doIt() {
 		Serial.println("raising !");
 		if(abs(z-safeHeight) < 2) {
 			if(_stack == LEFT) {
-				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 320);
+				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 315);
 			} else {
-				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, -320);
+				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, -315);
 			}
 			rotation_time = millis();
 			state = ROTATION;
 		}
 		break;
 	case ROTATION:
-		if(millis() - rotation_time > 500) {	//TODO: use _armothy->get_dof(Armothy::REVOLUTE_Z_AXIS)
+		if(millis() - rotation_time > 600) {	//TODO: use _armothy->get_dof(Armothy::REVOLUTE_Z_AXIS)
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, stackHeight);
 			state = STORE_DESCENT;
 		}
@@ -69,9 +69,22 @@ int TakeAndStoreMacro::doIt() {
 		}
 		break;
 	case STORE:
-		if(_armothy->getPressure() > 30) { //atom released
-			_armothy->closeValve();
+		if(_armothy->getPressure() > 60) { //pressure return to normal
+			pressure_time = millis();
+			state = WAIT_ATOM_DROP;
+		}
+		break;
+	case WAIT_ATOM_DROP:
+		if(millis() - pressure_time > 100) { //atom released
+			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
+			state = RAISING_BACK;
+		}
+		break;
+	case RAISING_BACK:
+		if(abs(z-safeHeight) < 2) {
 			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 0);
+			rotation_time = millis();
+			_armothy->closeValve();
 			state = ROTATION_BACK;
 		}
 		break;

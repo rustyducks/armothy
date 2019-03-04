@@ -38,6 +38,8 @@ private:
 		ROTATION,
 		STORE_DESCENT,
 		STORE,
+		WAIT_ATOM_DROP,
+		RAISING_BACK,
 		ROTATION_BACK
 	};
 
@@ -46,6 +48,7 @@ private:
 	float atomHeight;
 	float safeHeight;
 	unsigned long rotation_time;
+	unsigned long pressure_time;
 	State state;
 };
 
