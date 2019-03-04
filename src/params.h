@@ -23,8 +23,11 @@ constexpr int I2C_ADDRESS = 0x74;
 const unsigned int VERTICAL_MOTOR_A = 9;
 const unsigned int VERTICAL_MOTOR_B = 10;
 const unsigned int VERTICAL_MOTOR_EF = 12;
-const unsigned int VERTICAL_ENCODER_A = 3; // Interrupt pin
-const unsigned int VERTICAL_ENCODER_B = 2;
+
+//vertical encoder A = 3
+//vertical encoder B = 4		//originaly pin 2, but moved to pin 4 in order to use quadrature encoder
+//vertical encoder B_old = 2
+
 const unsigned int VERTICAL_LIMIT_SWITCH = 16; // Interrupt pin
 
 const unsigned int DYNAMIXEL_PIN_RX = 7;

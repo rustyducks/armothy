@@ -8,6 +8,8 @@
 #ifndef DCMOTOR_H_
 #define DCMOTOR_H_
 
+#define COUNTER_ZERO_VALUE 32000
+
 class DCMotor {
 public:
 	DCMotor();
@@ -46,13 +48,15 @@ public:
 	}
 
 	void setHome() {
-		_inc = 0;
+		zeroFTM();
 	}
 
 	void setMotorCommand(int command);
 
+	void zeroFTM();
+
 private:
-	static constexpr float INC_PER_MM = 55.5;
+	static constexpr float INC_PER_MM = 111;
 	static constexpr float KP = 15;
 	static constexpr float KI = 0.4;
 	static constexpr float KD = 0;
@@ -67,7 +71,6 @@ private:
 
 	void positionControl();
 
-	volatile long _inc;
 	long _prev_inc;
 	float _goal;
 	float _speed;
@@ -83,8 +86,6 @@ private:
 	int _current;
 };
 
-void ISR_INC1();
-void ISR_INC2();
 void ISR_LIMIT_SWITCH();
 
 #endif /* DCMOTOR_H_ */
