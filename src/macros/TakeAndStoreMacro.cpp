@@ -12,6 +12,7 @@
 namespace armothy {
 
 TakeAndStoreMacro::TakeAndStoreMacro(Armothy * arm, float stack_height, int stack) :AbstractMacro(arm) {
+	pressure_time = 0;
 	stackHeight = stack_height;
 	_stack = (Stack) stack;
 	atomHeight = 0;
@@ -27,6 +28,7 @@ TakeAndStoreMacro::~TakeAndStoreMacro() {
 void TakeAndStoreMacro::init() {
 	_armothy->closeValve();
 	_armothy->startPump();
+	state = INITIAL_DESCENT;
 }
 
 int TakeAndStoreMacro::doIt() {
@@ -45,7 +47,7 @@ int TakeAndStoreMacro::doIt() {
 		break;
 	case RAISING:
 		Serial.println("raising !");
-		if(abs(z-safeHeight) < 2) {
+		if(abs(z-safeHeight) < 3) {
 			if(_stack == LEFT) {
 				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 315);
 			} else {
@@ -62,7 +64,7 @@ int TakeAndStoreMacro::doIt() {
 		}
 		break;
 	case STORE_DESCENT:
-		if(abs(z-stackHeight) < 2) {
+		if(abs(z-stackHeight) < 3) {
 			_armothy->openValve();
 			_armothy->stopPump();
 			state = STORE;
@@ -81,7 +83,7 @@ int TakeAndStoreMacro::doIt() {
 		}
 		break;
 	case RAISING_BACK:
-		if(abs(z-safeHeight) < 2) {
+		if(abs(z-safeHeight) < 3) {
 			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 0);
 			rotation_time = millis();
 			_armothy->closeValve();

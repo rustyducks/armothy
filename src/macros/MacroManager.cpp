@@ -10,6 +10,7 @@
 #include "TakeAndStoreMacro.h"
 #include "Armothy.h"
 #include "HomeMacro.h"
+#include "PutDownMacro.h"
 
 
 namespace armothy {
@@ -56,6 +57,7 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 
 	float stackHeight;
 	int stack;
+	int rotation_drop;
 
 	switch(macroNb) {
 	case CATCH_MACRO:
@@ -68,6 +70,12 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 		break;
 	case HOME_MACRO:
 		currentMacro = new HomeMacro(_armothy);
+		break;
+	case PUT_DOWN_MACRO:
+		stackHeight = args[0].f;
+		stack = args[1].ui;
+		rotation_drop = args[2].i;
+		currentMacro = new PutDownMacro(_armothy, stackHeight, stack, rotation_drop);
 		break;
 	default:
 		//Unknown macro !

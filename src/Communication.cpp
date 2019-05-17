@@ -96,7 +96,7 @@ void Communication::onReceive(int receivedSize){
 		}
 
 	} else {
-		//Serial.println("Wrong byte number");
+		Serial.println("Wrong byte number. Too many args ?");
 		// This should not happen... (it means we received a macro command without argument)
 		while (Wire.available()) Wire.read();
 		return;
