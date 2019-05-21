@@ -17,7 +17,7 @@ constexpr float DCMotor::KI;
 constexpr float DCMotor::KD;
 constexpr float DCMotor::MIN_INTEGRAL;
 constexpr float DCMotor::MAX_INTEGRAL;
-constexpr float DCMotor::Z_MAX;
+constexpr float DCMotor::_Z_MAX;
 constexpr float DCMotor::KP_SPEED;
 constexpr float DCMotor::KI_SPEED;
 
@@ -50,7 +50,7 @@ void DCMotor::stop(){
 }
 
 void DCMotor::go_to(float position){
-	_goal = clamp((float)0, position, Z_MAX);
+	_goal = clamp((float)0, position, _Z_MAX);
 }
 
 float DCMotor::get_position(){

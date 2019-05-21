@@ -41,13 +41,21 @@ int TakeAndStoreMacro::doIt() {
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, 155);
 		}
 		else {
-			safeHeight = clamp((float)0, stackHeight, z-10);
+			atomHeight = z;
+			safeHeight = clamp((float)0, stackHeight, atomHeight-10);
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
 			state = RAISING;
+			if(abs(z - Z_MAX) < 10) {
+				state = RAISING_ERROR;
+			}
 		}
 		break;
 	case RAISING:
 		Serial.println("raising !");
+		// higher than 10mm above the atom, it should be safe to move by now
+		if(z < atomHeight - 10) {
+			returnCode = MACRO_STATUS_RUNNING_SAFE;
+		}
 		if(abs(z-safeHeight) < 3) {
 			if(_stack == LEFT) {
 				_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 315);
@@ -56,15 +64,18 @@ int TakeAndStoreMacro::doIt() {
 			}
 			rotation_time = millis();
 			state = ROTATION;
+			returnCode = MACRO_STATUS_RUNNING_SAFE;
 		}
 		break;
 	case ROTATION:
+		returnCode = MACRO_STATUS_RUNNING_SAFE;
 		if(millis() - rotation_time > 600) {	//TODO: use _armothy->get_dof(Armothy::REVOLUTE_Z_AXIS)
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, stackHeight);
 			state = STORE_DESCENT;
 		}
 		break;
 	case STORE_DESCENT:
+		returnCode = MACRO_STATUS_RUNNING_SAFE;
 		if(abs(z-stackHeight) < 3) {
 			_armothy->openValve();
 			_armothy->stopPump();
@@ -72,18 +83,21 @@ int TakeAndStoreMacro::doIt() {
 		}
 		break;
 	case STORE:
+		returnCode = MACRO_STATUS_RUNNING_SAFE;
 		if(_armothy->getPressure() > 60) { //pressure return to normal
 			pressure_time = millis();
 			state = WAIT_ATOM_DROP;
 		}
 		break;
 	case WAIT_ATOM_DROP:
+		returnCode = MACRO_STATUS_RUNNING_SAFE;
 		if(millis() - pressure_time > 100) { //atom released
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
 			state = RAISING_BACK;
 		}
 		break;
 	case RAISING_BACK:
+		returnCode = MACRO_STATUS_RUNNING_SAFE;
 		if(abs(z-safeHeight) < 3) {
 			_armothy->sendActuatorCommand(Armothy::REVOLUTE_Z_AXIS, 0);
 			rotation_time = millis();
@@ -92,6 +106,7 @@ int TakeAndStoreMacro::doIt() {
 		}
 		break;
 	case ROTATION_BACK:
+		returnCode = MACRO_STATUS_RUNNING_SAFE;
 		if(millis() - rotation_time > 500) {	//TODO: use _armothy->get_dof(Armothy::REVOLUTE_Z_AXIS)
 			returnCode = MACRO_STATUS_FINISHED;
 		}

@@ -8,6 +8,8 @@
 #ifndef DCMOTOR_H_
 #define DCMOTOR_H_
 
+#include "params.h"
+
 #define COUNTER_ZERO_VALUE 32000
 
 class DCMotor {
@@ -55,6 +57,8 @@ public:
 
 	void zeroFTM();
 
+	static constexpr float _Z_MAX = Z_MAX;
+
 private:
 	static constexpr float INC_PER_MM = 111;
 	static constexpr float KP = 15;
@@ -64,7 +68,6 @@ private:
 	static constexpr float KI_SPEED = 1;
 	static constexpr float MIN_INTEGRAL = -127;
 	static constexpr float MAX_INTEGRAL = 127;
-	static constexpr float Z_MAX = 130;
 
 
 	void speedControl();

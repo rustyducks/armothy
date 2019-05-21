@@ -18,6 +18,7 @@ public:
 		MACRO_STATUS_FINISHED = 1,
 		MACRO_STATUS_RUNNING = 2,
 		MACRO_STATUS_ERROR = 4,
+		MACRO_STATUS_RUNNING_SAFE = 5
 	};
 
 	AbstractMacro(Armothy * arm);

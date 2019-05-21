@@ -60,5 +60,7 @@ const float SUCCION_CUP_PERIOD = 0.050;
 const float MACRO_PERIOD = 0.050;
 const float CURRENT_CHECK_PERIOD = 0.005;
 
+static constexpr float Z_MAX = 130;
+
 
 #endif /* PARAMS_H_ */
