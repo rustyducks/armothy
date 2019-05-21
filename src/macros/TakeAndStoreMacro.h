@@ -40,7 +40,8 @@ private:
 		STORE,
 		WAIT_ATOM_DROP,
 		RAISING_BACK,
-		ROTATION_BACK
+		ROTATION_BACK,
+		RAISING_ERROR	// only in case of error (e.g. no atom catched)
 	};
 
 	Stack _stack;

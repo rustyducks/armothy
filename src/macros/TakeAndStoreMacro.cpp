@@ -32,6 +32,7 @@ void TakeAndStoreMacro::init() {
 }
 
 int TakeAndStoreMacro::doIt() {
+	MacroStatus returnCode = MACRO_STATUS_RUNNING;
 	float z = _armothy->getDoF(Armothy::PRISMATIC_Z_AXIS);
 
 	switch(state) {
@@ -92,11 +93,16 @@ int TakeAndStoreMacro::doIt() {
 		break;
 	case ROTATION_BACK:
 		if(millis() - rotation_time > 500) {	//TODO: use _armothy->get_dof(Armothy::REVOLUTE_Z_AXIS)
-			return MACRO_STATUS_FINISHED;
+			returnCode = MACRO_STATUS_FINISHED;
 		}
+		break;
+	case RAISING_ERROR:
+		_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
+		returnCode = MACRO_STATUS_ERROR;
+		break;
 	}
 
-	return MACRO_STATUS_RUNNING;
+	return returnCode;
 }
 
 void TakeAndStoreMacro::leave() {
