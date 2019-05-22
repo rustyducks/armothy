@@ -18,6 +18,8 @@ TakeAndStoreMacro::TakeAndStoreMacro(Armothy * arm, float stack_height, int stac
 	atomHeight = 0;
 	safeHeight = 0;
 	rotation_time = 0;
+	arm_lowest_time = 0;
+	arm_lowest_reached = false;
 	state = INITIAL_DESCENT;
 }
 
@@ -28,30 +30,36 @@ TakeAndStoreMacro::~TakeAndStoreMacro() {
 void TakeAndStoreMacro::init() {
 	_armothy->closeValve();
 	_armothy->startPump();
+	arm_lowest_reached = false;
 	state = INITIAL_DESCENT;
+	Serial.println("INITIAL DESCENT");
 }
 
 int TakeAndStoreMacro::doIt() {
 	MacroStatus returnCode = MACRO_STATUS_RUNNING;
 	float z = _armothy->getDoF(Armothy::PRISMATIC_Z_AXIS);
-
 	switch(state) {
 	case INITIAL_DESCENT:
 		if(_armothy->getPressure() > 30) {	//no atom catched yet
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, 155);
+			if(!arm_lowest_reached && abs(z - Z_MAX) < 5) {
+				arm_lowest_time = millis();
+				arm_lowest_reached = true;
+			}
+			if(arm_lowest_reached && millis() - arm_lowest_time > 500) {
+				state = RAISING_ERROR;
+				Serial.println(z);
+				Serial.println("RAISING_ERROR");
+			}
 		}
 		else {
 			atomHeight = z;
 			safeHeight = clamp((float)0, stackHeight, atomHeight-10);
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
 			state = RAISING;
-			if(abs(z - Z_MAX) < 10) {
-				state = RAISING_ERROR;
-			}
 		}
 		break;
 	case RAISING:
-		Serial.println("raising !");
 		// higher than 10mm above the atom, it should be safe to move by now
 		if(z < atomHeight - 10) {
 			returnCode = MACRO_STATUS_RUNNING_SAFE;
@@ -113,6 +121,8 @@ int TakeAndStoreMacro::doIt() {
 		break;
 	case RAISING_ERROR:
 		_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
+		_armothy->closeValve();
+		_armothy->stopPump();
 		returnCode = MACRO_STATUS_ERROR;
 		break;
 	}

@@ -50,6 +50,8 @@ private:
 	float safeHeight;
 	unsigned long rotation_time;
 	unsigned long pressure_time;
+	bool arm_lowest_reached;
+	unsigned long arm_lowest_time;
 	State state;
 };
 
