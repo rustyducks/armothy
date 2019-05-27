@@ -6,6 +6,7 @@
  */
 
 #include <MacroManager.h>
+#include <PutInScaleMacro.h>
 #include "CatchMacro.h"
 #include "TakeAndStoreMacro.h"
 #include "Armothy.h"
@@ -60,6 +61,10 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 	int rotation_drop;
 	float dropHeight;
 
+	if(currentMacro != nullptr) {
+		delete currentMacro;
+	}
+
 	switch(macroNb) {
 	case CATCH_MACRO:
 		currentMacro = new CatchMacro(_armothy);
@@ -78,6 +83,13 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 		rotation_drop = args[2].i;
 		dropHeight = args[3].f;
 		currentMacro = new PutDownMacro(_armothy, stackHeight, stack, rotation_drop, dropHeight);
+		break;
+	case PUT_IN_SCALE_MACRO:
+		stackHeight = args[0].f;
+		stack = args[1].ui;
+		rotation_drop = args[2].i;
+		dropHeight = args[3].f;
+		currentMacro = new PutInScaleMacro(_armothy, stackHeight, stack, rotation_drop, dropHeight);
 		break;
 	default:
 		//Unknown macro !
