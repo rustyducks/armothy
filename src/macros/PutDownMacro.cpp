@@ -92,6 +92,7 @@ int PutDownMacro::doIt() {
 	case WAIT_ATOM_DROP:
 		if(millis() - pressure_time > 100) { //atom released
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
+			_armothy->closeValve();
 			state = RAISING_BACK;
 		}
 		break;
