@@ -34,7 +34,7 @@ public:
 
 protected:
 	static constexpr uint8_t COMMAND_BUFFER_SIZE = 16;
-	static constexpr uint8_t MAX_ARGS_NUMBER = 4;
+	static constexpr uint8_t MAX_ARGS_NUMBER = 5;
 	enum eCommandByte{
 	START_CALIBRATION_CMD,
 	DIRECT_AXIS_1_CMD, // Expects a 4 bytes float with this command

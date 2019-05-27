@@ -11,13 +11,14 @@
 
 namespace armothy {
 
-PutDownMacro::PutDownMacro(Armothy * arm, float stack_height, int stack, int rotation_drop) :AbstractMacro(arm) {
+PutDownMacro::PutDownMacro(Armothy * arm, float stack_height, int stack, int rotation_drop, float drop_height) :AbstractMacro(arm) {
 	pressure_time = 0;
 	stackHeight = stack_height;
 	_stack = (Stack) stack;
 	rotation_time = 0;
 	rotationDrop = rotation_drop;
 	safeHeight = 0;
+	dropHeight = drop_height;
 	state = INIT_ROTATION;
 }
 
@@ -58,7 +59,8 @@ int PutDownMacro::doIt() {
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, 90);
 		}
 		else {
-			safeHeight = max(0, z - 10);
+			safeHeight = min(z-10, dropHeight);
+			safeHeight = max(0, safeHeight);
 			_armothy->sendActuatorCommand(Armothy::PRISMATIC_Z_AXIS, safeHeight);
 			state = RAISING;
 		}

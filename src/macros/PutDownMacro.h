@@ -15,7 +15,7 @@ namespace armothy {
 class PutDownMacro: public AbstractMacro {
 public:
 
-	PutDownMacro(Armothy * arm, float stack_height, int stack, int rotation_drop);
+	PutDownMacro(Armothy * arm, float stack_height, int stack, int rotation_drop, float drop_height = 300);
 	virtual ~PutDownMacro();
 
 	void init();
@@ -47,7 +47,9 @@ private:
 
 	Stack _stack;
 	float stackHeight;
+	float dropHeight;
 	int rotationDrop;
+
 
 	float safeHeight;
 	unsigned long rotation_time;

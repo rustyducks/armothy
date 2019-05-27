@@ -58,6 +58,7 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 	float stackHeight;
 	int stack;
 	int rotation_drop;
+	float dropHeight;
 
 	switch(macroNb) {
 	case CATCH_MACRO:
@@ -75,7 +76,8 @@ void MacroManager::setMacro(MacrosNumber macroNb, Communication::uArg *args) {
 		stackHeight = args[0].f;
 		stack = args[1].ui;
 		rotation_drop = args[2].i;
-		currentMacro = new PutDownMacro(_armothy, stackHeight, stack, rotation_drop);
+		dropHeight = args[3].f;
+		currentMacro = new PutDownMacro(_armothy, stackHeight, stack, rotation_drop, dropHeight);
 		break;
 	default:
 		//Unknown macro !
